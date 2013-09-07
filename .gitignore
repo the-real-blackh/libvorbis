@@ -1,0 +1,4 @@
+dist/
+test/play.o
+test/play.hi
+test/play

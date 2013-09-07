@@ -1,20 +1,28 @@
 {-# LANGUAGE ForeignFunctionInterface, EmptyDataDecls, ScopedTypeVariables,
              DeriveDataTypeable #-}
+-- | High level API for decoding Ogg-Vorbis files or streams.
+-- This module is intended to be imported qualified, e.g.
+--
+-- > import qualified Codec.Audio.Vorbis.File as V
 module Codec.Audio.Vorbis.File (
-        File,
+        -- * Opening file or streams
         openFile,
         openCallbacks,
         withFile,
         withCallbacks,
+        File,
+        -- * File metadata
         info,
         Info(..),
         Channels(..),
+        -- * Read data from file
         read,
-        close,
         Endianness(..),
+        getSystemEndianness,
         WordSize(..),
         Signedness(..),
-        getSystemEndianness
+        -- * Close file
+        close
     ) where
 
 import Control.Applicative
@@ -105,6 +113,7 @@ throwVorbisError err = do
             _                      -> error $ "Codec.Audio.Vorbis.File.throwVorbisError: bad error: "++show err
     throwIO $ OggVorbisException status
 
+-- | Open the specified Ogg-Vorbis file for decoding.
 openFile :: FilePath -> IO File
 openFile path = do
     h <- IO.openFile path ReadMode
@@ -114,6 +123,8 @@ openFile path = do
         tellFunc = hTell h
     openCallbacks readFunc closeFunc (Just (seekFunc, tellFunc))
 
+-- | Decode Ogg-Vorbis using the specified callbacks to do the back-end I/O.
+-- Seek and tell functions are optional.
 openCallbacks :: (Int -> Int -> IO ByteString)    -- ^ Read function, taking size and nmemb
               -> IO ()                            -- ^ Close function
               -> Maybe (SeekMode -> Integer -> IO (), IO Integer)  -- ^ Seek and tell functions
@@ -157,6 +168,8 @@ openCallbacks readFunc closeFunc mSeekTell = do
             err <- peek p_error
             throwVorbisError err
 
+-- | Close the file once we've finished with it. Must be used with the handles returned
+-- by 'openFile' and 'openCallbacks'.
 close :: File -> IO ()
 close (File c_f c_readFunc c_closeFunc c_seekFunc c_tellFunc) = do
     free_OggVorbis_File c_f
@@ -169,13 +182,18 @@ freeFunPtrs c_readFunc c_seekFunc c_closeFunc c_tellFunc = do
     freeHaskellFunPtr c_readFunc
     freeHaskellFunPtr c_closeFunc
 
--- | Open the file using the loan pattern. It calls 'close' for you, so don't call it
--- explicitly.
+-- | Open the specified Ogg-Vorbis file for decoding.
+--
+-- Opens it using the loan pattern: Guaranteed to call 'close' for you on
+-- completion (exception safe), so you must not call 'close' explicitly.
 withFile :: FilePath -> (File -> IO a) -> IO a
 withFile path code = bracket (openFile path) close code
 
--- | Open the stream using the loan pattern. It calls 'close' for you, so don't call it
--- explicitly.
+-- | Decode Ogg-Vorbis using the specified callbacks to do the back-end I/O.
+-- Seek and tell functions are optional.
+--
+-- Opens it using the loan pattern: Guaranteed to call 'close' for you on
+-- completion (exception safe), so you must not call 'close' explicitly.
 withCallbacks :: (Int -> Int -> IO ByteString)    -- ^ Read function, taking size and nmemb
               -> IO ()                            -- ^ Close function
               -> Maybe (SeekMode -> Integer -> IO (), IO Integer)  -- ^ Seek and tell functions
