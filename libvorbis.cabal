@@ -6,7 +6,7 @@ description:         This package gives you a simple high-level API for decoding
                      See the HOgg package in case that's more what you want.
                      .
                      Take a look at the tests/ directory for a minimalistic command-line player.
-homepage:            https://github.com/the-real-blackh/libmpg123
+homepage:            https://github.com/the-real-blackh/libvorbis
 license:             BSD3
 license-file:        LICENSE
 author:              Stephen Blackheath
