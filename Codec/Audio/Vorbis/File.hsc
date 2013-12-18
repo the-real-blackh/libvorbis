@@ -36,7 +36,7 @@ import Data.Int
 import Data.Typeable
 import Foreign hiding (new)
 import Foreign.C
-import Prelude hiding (read)
+import Prelude hiding (catch, read)
 import System.IO (SeekMode(..), hClose, hSeek, hTell, IOMode(..))
 import qualified System.IO as IO
 import System.Endian
