@@ -1,16 +1,17 @@
 name:                libvorbis
-version:             0.1.0.1
+version:             0.1.0.2
 synopsis:            Haskell binding for libvorbis, for decoding Ogg Vorbis audio files
 description:         This package gives you a simple high-level API for decoding Ogg Vorbis
                      files or streams, and isn't currently intended to be comprehensive.
                      See the HOgg package in case that's more what you want.
                      .
                      Take a look at the tests/ directory for a minimalistic command-line player.
+                     0.1.0.2: Bump base upper bound.
 homepage:            https://github.com/the-real-blackh/libvorbis
 license:             BSD3
 license-file:        LICENSE
 author:              Stephen Blackheath
-maintainer:          http://blacksapphire.com/antispam/
+maintainer:          libvorbis.stephen@blacksapphire.com
 -- copyright:           
 category:            Codec
 build-type:          Simple
