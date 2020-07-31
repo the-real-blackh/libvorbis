@@ -7,9 +7,6 @@
 module Dynamic.Bind where
 
 import           Data.ByteString
-#if __GLASGOW_HASKELL__ < 804
-import           Data.Monoid
-#endif
 import           Data.Int
 import           Data.Word
 import           Foreign.Ptr

@@ -11,6 +11,9 @@ import           Codec.Audio.Vorbis.Raw.Internal
 import           Codec.Container.Ogg.Raw
 
 import           Data.List (intercalate)
+#if __GLASGOW_HASKELL__ < 804
+import           Data.Monoid
+#endif
 
 
 
