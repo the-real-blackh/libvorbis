@@ -77,9 +77,22 @@ matrix:
     compiler: ": #stack nightly osx"
     os: osx
 
-# Stack 2.1.3 (compiled with GHC 8.2.2) throws an
-# 'Access violation in generated code when writing 0x0' error
-# when compiling under 32-bit Windows.
+  - env: BUILD=stack ARGS="--resolver nightly"
+    language: c
+    compiler: ": #stack 8.2.2 windows"
+    os: windows
+
+  - env: BUILD=stack ARGS="--resolver nightly"
+    language: c
+    compiler: ": #stack 8.4.4 windows"
+    os: windows
+
+  - env: BUILD=stack ARGS="--resolver nightly"
+    language: c
+    compiler: ": #stack 8.6.5 windows"
+    os: windows
+
+  # Nightly builds are allowed to fail
   - env: BUILD=stack ARGS="--resolver nightly"
     language: c
     compiler: ": #stack nightly windows"
