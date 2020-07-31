@@ -77,17 +77,17 @@ matrix:
     compiler: ": #stack nightly osx"
     os: osx
 
-  - env: BUILD=stack ARGS="--resolver nightly"
+  - env: BUILD=stack ARGS="--resolver lts-11"
     language: c
     compiler: ": #stack 8.2.2 windows"
     os: windows
 
-  - env: BUILD=stack ARGS="--resolver nightly"
+  - env: BUILD=stack ARGS="--resolver lts-12"
     language: c
     compiler: ": #stack 8.4.4 windows"
     os: windows
 
-  - env: BUILD=stack ARGS="--resolver nightly"
+  - env: BUILD=stack ARGS="--resolver lts-14"
     language: c
     compiler: ": #stack 8.6.5 windows"
     os: windows
