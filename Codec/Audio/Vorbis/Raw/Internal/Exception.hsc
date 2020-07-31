@@ -4,7 +4,11 @@ module Codec.Audio.Vorbis.Raw.Internal.Exception where
 
 import           Control.Monad (when)
 import           Control.Exception
+
 import           Data.Int
+#if __GLASGOW_HASKELL__ < 804
+import           Data.Monoid
+#endif
 
 #include "vorbis/codec.h"
 
