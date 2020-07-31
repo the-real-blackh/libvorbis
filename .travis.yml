@@ -81,6 +81,7 @@ matrix:
 # 'Access violation in generated code when writing 0x0' error
 # when compiling under 32-bit Windows.
   - env: BUILD=stack ARGS="--resolver nightly"
+    language: c
     compiler: ": #stack nightly windows"
     os: windows
 
