@@ -1,17 +1,17 @@
 name:                libvorbis
-version:             0.1.0.2
-synopsis:            Haskell binding for libvorbis, for decoding Ogg Vorbis audio files
-description:         This package gives you a simple high-level API for decoding Ogg Vorbis
-                     files or streams, and isn't currently intended to be comprehensive.
-                     See the HOgg package in case that's more what you want.
-                     .
-                     Take a look at the tests/ directory for a minimalistic command-line player.
-                     0.1.0.2: Bump base upper bound.
+version:             0.2.0.0
+synopsis:            Mostly raw Haskell bindings to libogg, libvorbis, vorbisfile and vorbisenc.
+description:         This package provides wrapped bindings to
+                     [libogg](https://xiph.org/ogg/doc/libogg/index.html),
+                     [libvorbis](https://xiph.org/vorbis/doc/libvorbis/index.html),
+                     [vorbisfile](https://xiph.org/vorbis/doc/vorbisfile/index.html) and
+                     [vorbisenc](https://xiph.org/vorbis/doc/vorbisenc/index.html).
 homepage:            https://github.com/the-real-blackh/libvorbis
 license:             BSD3
 license-file:        LICENSE
-author:              Stephen Blackheath
-maintainer:          libvorbis.stephen@blacksapphire.com
+author:              Stephen Blackheath, Oleksii Divak
+maintainer:          Stephen Blackheath <libvorbis.stephen@blacksapphire.com>
+                   , Oleksii Divak <frozenwitness@gmail.com>
 -- copyright:           
 category:            Codec
 build-type:          Simple
@@ -24,17 +24,62 @@ extra-source-files:  libogg/include/ogg/*.h
                      libvorbis/lib/books/floor/*.h
                      libvorbis/lib/books/uncoupled/*.h
                      libvorbis/lib/modes/*.h
+                     libvorbis-plus/include/vorbis/*.h
 
 source-repository head
   type:     git
   location: https://github.com/the-real-blackh/libvorbis
 
 library
-  exposed-modules:     Codec.Audio.Vorbis.File
-  -- other-modules:       
-  build-depends:       base >= 4.5.0.0 && < 5.0.0.0
-                     , bytestring >= 0.10.0.0
-                     , cpu >= 0.1.1
+  exposed-modules:     Codec.Audio.Vorbis.Enc.Raw
+                       Codec.Audio.Vorbis.Enc.Raw.Internal
+
+                       Codec.Audio.Vorbis.File.Raw
+                       Codec.Audio.Vorbis.File.Raw.Internal
+
+                       Codec.Audio.Vorbis.Raw
+                       Codec.Audio.Vorbis.Raw.Internal
+ 
+                       Codec.Container.Ogg.Raw
+                       Codec.Container.Ogg.Raw.Internal
+
+  other-modules:       Codec.Audio.Vorbis.Enc.Raw.Types
+
+                       Codec.Audio.Vorbis.File.Raw.Decoding
+                       Codec.Audio.Vorbis.File.Raw.Decoding.Internal
+                       Codec.Audio.Vorbis.File.Raw.File
+                       Codec.Audio.Vorbis.File.Raw.File.Internal
+                       Codec.Audio.Vorbis.File.Raw.Seeking
+                       Codec.Audio.Vorbis.File.Raw.Seeking.Internal
+                       Codec.Audio.Vorbis.File.Raw.Setup
+                       Codec.Audio.Vorbis.File.Raw.Setup.Internal
+                       Codec.Audio.Vorbis.File.Raw.Types
+                       Codec.Audio.Vorbis.File.Raw.Types.Internal
+
+                       Codec.Audio.Vorbis.Raw.Both
+                       Codec.Audio.Vorbis.Raw.Both.Internal
+                       Codec.Audio.Vorbis.Raw.Decoding
+                       Codec.Audio.Vorbis.Raw.Decoding.Internal
+                       Codec.Audio.Vorbis.Raw.Encoding
+                       Codec.Audio.Vorbis.Raw.Encoding.Internal
+                       Codec.Audio.Vorbis.Raw.Internal.Exception
+                       Codec.Audio.Vorbis.Raw.Metadata
+                       Codec.Audio.Vorbis.Raw.Metadata.Internal
+                       Codec.Audio.Vorbis.Raw.Types
+
+                       Codec.Container.Ogg.Raw.Bitpacking
+                       Codec.Container.Ogg.Raw.Bitpacking.Internal
+                       Codec.Container.Ogg.Raw.Decoding
+                       Codec.Container.Ogg.Raw.Decoding.Internal
+                       Codec.Container.Ogg.Raw.Encoding
+                       Codec.Container.Ogg.Raw.Encoding.Internal
+                       Codec.Container.Ogg.Raw.General
+                       Codec.Container.Ogg.Raw.General.Internal
+                       Codec.Container.Ogg.Raw.Internal.Exception
+                       Codec.Container.Ogg.Raw.Types
+
+  build-depends:       base >= 4.10 && < 5
+                     , bytestring
 
   include-dirs:        libogg/include/ogg
                        libogg/src
@@ -44,11 +89,11 @@ library
                        libvorbis/lib/books/floor
                        libvorbis/lib/books/uncoupled
                        libvorbis/lib/modes
+                       libvorbis-plus/include
 
   ghc-options:         -Wall
 
-  c-sources:           Codec/Audio/Vorbis/File_helper.c
-                       libogg/src/bitwise.c
+  c-sources:           libogg/src/bitwise.c
                        libogg/src/framing.c
                        libvorbis/lib/analysis.c
                     -- libvorbis/lib/barkmel.c -- Another main?
@@ -75,3 +120,103 @@ library
                        libvorbis/lib/vorbisenc.c
                        libvorbis/lib/vorbisfile.c
                        libvorbis/lib/window.c
+                       libvorbis-plus/lib/vorbisfile-plus.c
+
+
+
+test-suite dynamic-function-check
+  type:                exitcode-stdio-1.0
+  main-is:             Dynamic.hs
+  hs-source-dirs:      .
+                     , test
+  build-depends:       base >= 4.10 && < 5
+                     , bytestring
+
+  other-modules:       Codec.Audio.Vorbis.Enc.Raw
+                       Codec.Audio.Vorbis.Enc.Raw.Internal
+                       Codec.Audio.Vorbis.Enc.Raw.Types
+
+                       Codec.Audio.Vorbis.File.Raw
+                       Codec.Audio.Vorbis.File.Raw.Internal
+
+                       Codec.Audio.Vorbis.File.Raw.Decoding
+                       Codec.Audio.Vorbis.File.Raw.Decoding.Internal
+                       Codec.Audio.Vorbis.File.Raw.File
+                       Codec.Audio.Vorbis.File.Raw.File.Internal
+                       Codec.Audio.Vorbis.File.Raw.Seeking
+                       Codec.Audio.Vorbis.File.Raw.Seeking.Internal
+                       Codec.Audio.Vorbis.File.Raw.Setup
+                       Codec.Audio.Vorbis.File.Raw.Setup.Internal
+                       Codec.Audio.Vorbis.File.Raw.Types
+                       Codec.Audio.Vorbis.File.Raw.Types.Internal
+
+                       Codec.Audio.Vorbis.Raw
+                       Codec.Audio.Vorbis.Raw.Internal
+
+                       Codec.Audio.Vorbis.Raw.Both
+                       Codec.Audio.Vorbis.Raw.Both.Internal
+                       Codec.Audio.Vorbis.Raw.Decoding
+                       Codec.Audio.Vorbis.Raw.Decoding.Internal
+                       Codec.Audio.Vorbis.Raw.Encoding
+                       Codec.Audio.Vorbis.Raw.Encoding.Internal
+                       Codec.Audio.Vorbis.Raw.Internal.Exception
+                       Codec.Audio.Vorbis.Raw.Metadata
+                       Codec.Audio.Vorbis.Raw.Metadata.Internal
+                       Codec.Audio.Vorbis.Raw.Types
+
+                       Codec.Container.Ogg.Raw
+                       Codec.Container.Ogg.Raw.Internal
+
+                       Codec.Container.Ogg.Raw.Bitpacking
+                       Codec.Container.Ogg.Raw.Bitpacking.Internal
+                       Codec.Container.Ogg.Raw.Decoding
+                       Codec.Container.Ogg.Raw.Decoding.Internal
+                       Codec.Container.Ogg.Raw.Encoding
+                       Codec.Container.Ogg.Raw.Encoding.Internal
+                       Codec.Container.Ogg.Raw.General
+                       Codec.Container.Ogg.Raw.General.Internal
+                       Codec.Container.Ogg.Raw.Internal.Exception
+                       Codec.Container.Ogg.Raw.Types
+
+                       Dynamic.Bind
+
+  include-dirs:        libogg/include/ogg
+                       libogg/src
+                       libvorbis/include
+                       libvorbis/lib
+                       libvorbis/lib/books/coupled
+                       libvorbis/lib/books/floor
+                       libvorbis/lib/books/uncoupled
+                       libvorbis/lib/modes
+                       libvorbis-plus/include
+
+  ghc-options:         -Wall
+
+  c-sources:           libogg/src/bitwise.c
+                       libogg/src/framing.c
+                       libvorbis/lib/analysis.c
+                    -- libvorbis/lib/barkmel.c -- Another main?
+                       libvorbis/lib/bitrate.c
+                       libvorbis/lib/block.c
+                       libvorbis/lib/codebook.c
+                       libvorbis/lib/envelope.c
+                       libvorbis/lib/floor0.c
+                       libvorbis/lib/floor1.c
+                       libvorbis/lib/info.c
+                       libvorbis/lib/lookup.c
+                       libvorbis/lib/lpc.c
+                       libvorbis/lib/lsp.c
+                       libvorbis/lib/mapping0.c
+                       libvorbis/lib/mdct.c
+                       libvorbis/lib/psy.c
+                    -- libvorbis/lib/psytune.c -- Dead code
+                       libvorbis/lib/registry.c
+                       libvorbis/lib/res0.c
+                       libvorbis/lib/sharedbook.c
+                       libvorbis/lib/smallft.c
+                       libvorbis/lib/synthesis.c
+                    -- libvorbis/lib/tone.c -- Another main?
+                       libvorbis/lib/vorbisenc.c
+                       libvorbis/lib/vorbisfile.c
+                       libvorbis/lib/window.c
+                       libvorbis-plus/lib/vorbisfile-plus.c
