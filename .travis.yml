@@ -132,6 +132,9 @@ install:
       travis_retry cabal update
       cabal install --only-dependencies --force-reinstalls --ghc-options='-O0' --reorder-goals --max-backjumps=-1 $CABALARGS
       ;;
+    *)
+      exit -1
+      ;;
   esac
 script:
 - |
@@ -139,7 +142,10 @@ script:
     stack)
       stack --no-terminal $ARGS test --haddock --no-haddock-deps
       ;;
-    cabal)
+    stack-cmake)
+      stack --no-terminal $ARGS test --haddock --no-haddock-deps
+      ;;
+    cabal-cmake)
       cabal configure --enable-tests --enable-benchmarks -v2 --ghc-options='-O0 -Werror'
       cabal build
       cabal check || [ "$CABALVER" == "1.16" ]
@@ -148,5 +154,8 @@ script:
       cabal copy
       SRC_TGZ=$(cabal info . | awk '{print $2;exit}').tar.gz && \
         (cd dist && cabal install --force-reinstalls "$SRC_TGZ")
+      ;;
+    *)
+      exit -1
       ;;
   esac
