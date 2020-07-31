@@ -81,7 +81,7 @@ library
   build-depends:       base >= 4.10 && < 5
                      , bytestring
 
-  include-dirs:        libogg/include/ogg
+  include-dirs:        libogg/include
                        libogg/src
                        libvorbis/include
                        libvorbis/lib
@@ -180,7 +180,7 @@ test-suite dynamic-function-check
 
                        Dynamic.Bind
 
-  include-dirs:        libogg/include/ogg
+  include-dirs:        libogg/include
                        libogg/src
                        libvorbis/include
                        libvorbis/lib
