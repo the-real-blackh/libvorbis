@@ -1,9 +1,15 @@
-{-# LANGUAGE EmptyDataDecls #-}
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE DataKinds
+           , EmptyDataDecls
+           , FlexibleInstances
+           , ForeignFunctionInterface
+           , TemplateHaskell
+           , TypeApplications #-}
 
 module Codec.Audio.Vorbis.Raw.Types where
 
-import           Data.Function ((&))
+import           Data.Field
+import           Data.Field.Storable.TH
+
 import           Foreign
 
 #include "vorbis/codec.h"
@@ -23,12 +29,17 @@ instance Storable VorbisBlock where
 
 data VorbisComment =
        VorbisComment
-         { userComments   :: Ptr (Ptr #{type char})
-         , commentLengths :: Ptr #type int
-         , comments       :: #type int
-         , vendor         :: Ptr #type char
+         { vcUser_comments   :: Ptr (Ptr #{type char})
+         , vcComment_lengths :: Ptr #type int
+         , vcComments        :: #type int
+         , vcVendor          :: Ptr #type char
          }
        deriving Show
+
+deriveStorable #{offset struct vorbis_comment, user_comments  } "vcUser_comments"   ''VorbisComment
+deriveStorable #{offset struct vorbis_comment, comment_lengths} "vcComment_lengths" ''VorbisComment
+deriveStorable #{offset struct vorbis_comment, comments       } "vcComments"        ''VorbisComment
+deriveStorable #{offset struct vorbis_comment, vendor         } "vcVendor"          ''VorbisComment
 
 instance Storable VorbisComment where
   sizeOf _    = #size      struct vorbis_comment
@@ -36,16 +47,16 @@ instance Storable VorbisComment where
 
   peek ptr =
     VorbisComment
-      <$> #{peek struct vorbis_comment, user_comments  } ptr
-      <*> #{peek struct vorbis_comment, comment_lengths} ptr
-      <*> #{peek struct vorbis_comment, comments       } ptr
-      <*> #{peek struct vorbis_comment, vendor         } ptr
+      <$> peekField @"vcUser_comments"   ptr
+      <*> peekField @"vcComment_lengths" ptr
+      <*> peekField @"vcComments"        ptr
+      <*> peekField @"vcVendor"          ptr
 
   poke ptr val = do
-    #{poke struct vorbis_comment, user_comments  } ptr $ val & userComments
-    #{poke struct vorbis_comment, comment_lengths} ptr $ val & commentLengths
-    #{poke struct vorbis_comment, comments       } ptr $ val & comments
-    #{poke struct vorbis_comment, vendor         } ptr $ val & vendor
+    pokeRecordField @"vcUser_comments"   ptr val
+    pokeRecordField @"vcComment_lengths" ptr val
+    pokeRecordField @"vcComments"        ptr val
+    pokeRecordField @"vcVendor"          ptr val
 
 
 
@@ -64,16 +75,25 @@ instance Storable VorbisDspState where
 
 data VorbisInfo =
        VorbisInfo
-         { version        :: #type int
-         , channels       :: #type int
-         , rate           :: #type long
-         , bitrateUpper   :: #type long
-         , bitrateNominal :: #type long
-         , bitrateLower   :: #type long
-         , bitrateWindow  :: #type long
-         , codecSetup     :: Ptr ()
+         { viVersion         :: #type int
+         , viChannels        :: #type int
+         , viRate            :: #type long
+         , viBitrate_upper   :: #type long
+         , viBitrate_nominal :: #type long
+         , viBitrate_lower   :: #type long
+         , viBitrate_window  :: #type long
+         , viCodec_setup     :: Ptr ()
          }
        deriving Show
+
+deriveStorable #{offset struct vorbis_info, version        } "viVersion"         ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, channels       } "viChannels"        ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, rate           } "viRate"            ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, bitrate_upper  } "viBitrate_upper"   ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, bitrate_nominal} "viBitrate_nominal" ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, bitrate_lower  } "viBitrate_lower"   ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, bitrate_window } "viBitrate_window"  ''VorbisInfo
+deriveStorable #{offset struct vorbis_info, codec_setup    } "viCodec_setup"     ''VorbisInfo
 
 instance Storable VorbisInfo where
   sizeOf _    = #size      struct vorbis_info
@@ -81,21 +101,21 @@ instance Storable VorbisInfo where
 
   peek ptr =
     VorbisInfo
-      <$> #{peek struct vorbis_info, version        } ptr
-      <*> #{peek struct vorbis_info, channels       } ptr
-      <*> #{peek struct vorbis_info, rate           } ptr
-      <*> #{peek struct vorbis_info, bitrate_upper  } ptr
-      <*> #{peek struct vorbis_info, bitrate_nominal} ptr
-      <*> #{peek struct vorbis_info, bitrate_lower  } ptr
-      <*> #{peek struct vorbis_info, bitrate_window } ptr
-      <*> #{peek struct vorbis_info, codec_setup    } ptr
+      <$> peekField @"viVersion"         ptr
+      <*> peekField @"viChannels"        ptr
+      <*> peekField @"viRate"            ptr
+      <*> peekField @"viBitrate_upper"   ptr
+      <*> peekField @"viBitrate_nominal" ptr
+      <*> peekField @"viBitrate_lower"   ptr
+      <*> peekField @"viBitrate_window"  ptr
+      <*> peekField @"viCodec_setup"     ptr
 
   poke ptr val = do
-    #{poke struct vorbis_info, version        } ptr $ val & version
-    #{poke struct vorbis_info, channels       } ptr $ val & channels
-    #{poke struct vorbis_info, rate           } ptr $ val & rate
-    #{poke struct vorbis_info, bitrate_upper  } ptr $ val & bitrateUpper
-    #{poke struct vorbis_info, bitrate_nominal} ptr $ val & bitrateNominal
-    #{poke struct vorbis_info, bitrate_lower  } ptr $ val & bitrateLower
-    #{poke struct vorbis_info, bitrate_window } ptr $ val & bitrateWindow
-    #{poke struct vorbis_info, codec_setup    } ptr $ val & codecSetup
+    pokeRecordField @"viVersion"         ptr val
+    pokeRecordField @"viChannels"        ptr val
+    pokeRecordField @"viRate"            ptr val
+    pokeRecordField @"viBitrate_upper"   ptr val
+    pokeRecordField @"viBitrate_nominal" ptr val
+    pokeRecordField @"viBitrate_lower"   ptr val
+    pokeRecordField @"viBitrate_window"  ptr val
+    pokeRecordField @"viCodec_setup"     ptr val

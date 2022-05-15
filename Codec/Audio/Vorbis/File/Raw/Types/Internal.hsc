@@ -1,10 +1,15 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE DataKinds
+           , FlexibleInstances
+           , ForeignFunctionInterface
+           , TemplateHaskell
+           , TypeApplications #-}
 
 module Codec.Audio.Vorbis.File.Raw.Types.Internal where
 
 import           Codec.Container.Ogg.Raw.Types
+import           Data.Field
+import           Data.Field.Storable.TH
 
-import           Data.Function ((&))
 import           Data.Int
 import           Data.Word
 import           Foreign.Ptr
@@ -45,22 +50,27 @@ data OvCallbacks a =
          }
        deriving Show
 
+deriveStorable1 #{offset ov_callbacks, read_func  } "ovRead_func"  ''OvCallbacks
+deriveStorable1 #{offset ov_callbacks, seek_func  } "ovSeek_func"  ''OvCallbacks
+deriveStorable1 #{offset ov_callbacks, close_func } "ovClose_func" ''OvCallbacks
+deriveStorable1 #{offset ov_callbacks, tell_func  } "ovTell_func"  ''OvCallbacks
+
 instance Storable (OvCallbacks a) where
   sizeOf _    = #size      ov_callbacks
   alignment _ = #alignment ov_callbacks
 
   peek ptr =
     OvCallbacks
-      <$> #{peek ov_callbacks, read_func } ptr
-      <*> #{peek ov_callbacks, seek_func } ptr
-      <*> #{peek ov_callbacks, close_func} ptr
-      <*> #{peek ov_callbacks, tell_func } ptr
+      <$> peekField @"ovRead_func"  ptr
+      <*> peekField @"ovSeek_func"  ptr
+      <*> peekField @"ovClose_func" ptr
+      <*> peekField @"ovTell_func"  ptr
 
   poke ptr val = do
-    #{poke ov_callbacks, read_func } ptr $ val & ovRead_func
-    #{poke ov_callbacks, seek_func } ptr $ val & ovSeek_func
-    #{poke ov_callbacks, close_func} ptr $ val & ovClose_func
-    #{poke ov_callbacks, tell_func } ptr $ val & ovTell_func
+    pokeRecordField @"ovRead_func"  ptr val
+    pokeRecordField @"ovSeek_func"  ptr val
+    pokeRecordField @"ovClose_func" ptr val
+    pokeRecordField @"ovTell_func"  ptr val
 
 
 
@@ -99,17 +109,38 @@ data OvMemoryPointer a =
          , ompCurrent    :: #{type size_t} -- ^ Current position in the datasource.
          }
 
+instance Storable (Field "ompDatasource" (OvMemoryPointer a)) where
+  sizeOf    = foldField sizeOf
+  alignment = foldField alignment
+
+  peek ptr = mkField <$> peek (castPtr ptr)
+  poke ptr = foldField $ poke (castPtr ptr)
+
+instance Storable (Field "ompTotal" (OvMemoryPointer a)) where
+  sizeOf    = foldField sizeOf
+  alignment = foldField alignment
+
+  peek ptr = mkField <$> peek (ptr `plusPtr` sizeOf (undefined :: Ptr a))
+  poke ptr = foldField $ poke (ptr `plusPtr` sizeOf (undefined :: Ptr a))
+
+instance Storable (Field "ompCurrent" (OvMemoryPointer a)) where
+  sizeOf    = foldField sizeOf
+  alignment = foldField alignment
+
+  peek ptr = mkField <$> peek (plusPtr ptr $ sizeOf (undefined :: Ptr a) + sizeOf (undefined :: #{type size_t}))
+  poke ptr = foldField $ poke (plusPtr ptr $ sizeOf (undefined :: Ptr a) + sizeOf (undefined :: #{type size_t}))
+
 instance Storable (OvMemoryPointer a) where
   sizeOf _    = sizeOf (undefined :: Ptr a) + 2 * sizeOf (undefined :: #{type size_t})
   alignment _ = alignment (undefined :: Ptr a)
   
   peek ptr =
     OvMemoryPointer
-      <$> peek (castPtr ptr)                               
-      <*> peek (ptr `plusPtr` sizeOf (undefined :: Ptr a)) 
-      <*> peek (ptr `plusPtr` (sizeOf (undefined :: Ptr a) + sizeOf (undefined :: #{type size_t})))
+      <$> peekField @"ompDatasource" ptr
+      <*> peekField @"ompTotal"      ptr
+      <*> peekField @"ompCurrent"    ptr
   
-  poke ptr (OvMemoryPointer a b c) = do
-    poke (castPtr ptr) a
-    poke (ptr `plusPtr` sizeOf (undefined :: Ptr a)) b
-    poke (ptr `plusPtr` (sizeOf (undefined :: Ptr a) + sizeOf (undefined :: #{type size_t}))) c
+  poke ptr val = do
+    pokeRecordField @"ompDatasource" ptr val
+    pokeRecordField @"ompTotal"      ptr val
+    pokeRecordField @"ompCurrent"    ptr val

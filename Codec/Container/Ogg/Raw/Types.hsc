@@ -1,8 +1,14 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE DataKinds
+           , FlexibleInstances
+           , ForeignFunctionInterface
+           , TemplateHaskell
+           , TypeApplications #-}
 
 module Codec.Container.Ogg.Raw.Types where
 
-import           Data.Function ((&))
+import           Data.Field
+import           Data.Field.Storable.TH
+
 import           Foreign
 
 #include "ogg/ogg.h"
@@ -21,24 +27,30 @@ data OggpackBuffer =
          }
        deriving Show
 
+deriveStorable #{offset oggpack_buffer, endbyte} "obEndbyte" ''OggpackBuffer
+deriveStorable #{offset oggpack_buffer, endbit } "obEndbit"  ''OggpackBuffer
+deriveStorable #{offset oggpack_buffer, buffer } "obBuffer"  ''OggpackBuffer
+deriveStorable #{offset oggpack_buffer, ptr    } "obPtr"     ''OggpackBuffer
+deriveStorable #{offset oggpack_buffer, storage} "obStorage" ''OggpackBuffer
+
 instance Storable OggpackBuffer where
   sizeOf _    = #size      oggpack_buffer
   alignment _ = #alignment oggpack_buffer
 
   peek ptr =
     OggpackBuffer
-      <$> #{peek oggpack_buffer, endbyte} ptr
-      <*> #{peek oggpack_buffer, endbit } ptr
-      <*> #{peek oggpack_buffer, buffer } ptr
-      <*> #{peek oggpack_buffer, ptr    } ptr
-      <*> #{peek oggpack_buffer, storage} ptr
+      <$> peekField @"obEndbyte" ptr
+      <*> peekField @"obEndbit"  ptr
+      <*> peekField @"obBuffer"  ptr
+      <*> peekField @"obPtr"     ptr
+      <*> peekField @"obStorage" ptr
 
   poke ptr val = do
-    #{poke oggpack_buffer, endbyte} ptr $ val & obEndbyte
-    #{poke oggpack_buffer, endbit } ptr $ val & obEndbit
-    #{poke oggpack_buffer, buffer } ptr $ val & obBuffer
-    #{poke oggpack_buffer, ptr    } ptr $ val & obPtr
-    #{poke oggpack_buffer, storage} ptr $ val & obStorage
+    pokeRecordField @"obEndbyte" ptr val
+    pokeRecordField @"obEndbit"  ptr val
+    pokeRecordField @"obBuffer"  ptr val
+    pokeRecordField @"obPtr"     ptr val
+    pokeRecordField @"obStorage" ptr val
 
 
 
@@ -51,22 +63,27 @@ data OggPage =
          }
        deriving Show
 
+deriveStorable #{offset ogg_page, header    } "opHeader"     ''OggPage
+deriveStorable #{offset ogg_page, header_len} "opHeader_len" ''OggPage
+deriveStorable #{offset ogg_page, body      } "opBody"       ''OggPage
+deriveStorable #{offset ogg_page, body_len  } "opBody_len"   ''OggPage
+
 instance Storable OggPage where
   sizeOf _    = #size      ogg_page
   alignment _ = #alignment ogg_page
 
   peek ptr =
     OggPage
-      <$> #{peek ogg_page, header    } ptr
-      <*> #{peek ogg_page, header_len} ptr
-      <*> #{peek ogg_page, body      } ptr
-      <*> #{peek ogg_page, body_len  } ptr
+      <$> peekField @"opHeader"     ptr
+      <*> peekField @"opHeader_len" ptr
+      <*> peekField @"opBody"       ptr
+      <*> peekField @"opBody_len"   ptr
 
   poke ptr val = do
-    #{poke ogg_page, header    } ptr $ val & opHeader
-    #{poke ogg_page, header_len} ptr $ val & opHeader_len
-    #{poke ogg_page, body      } ptr $ val & opBody
-    #{poke ogg_page, body_len  } ptr $ val & opBody_len
+    pokeRecordField @"opHeader"     ptr val
+    pokeRecordField @"opHeader_len" ptr val
+    pokeRecordField @"opBody"       ptr val
+    pokeRecordField @"opBody_len"   ptr val
 
 
 
@@ -93,51 +110,69 @@ data OggStreamState =
          }
        deriving Show
 
+deriveStorable #{offset ogg_stream_state, body_data      } "ossBody_data"       ''OggStreamState
+deriveStorable #{offset ogg_stream_state, body_storage   } "ossBody_storage"    ''OggStreamState
+deriveStorable #{offset ogg_stream_state, body_fill      } "ossBody_fill"       ''OggStreamState
+deriveStorable #{offset ogg_stream_state, body_returned  } "ossBody_returned"   ''OggStreamState
+deriveStorable #{offset ogg_stream_state, lacing_vals    } "ossLacing_vals"     ''OggStreamState
+deriveStorable #{offset ogg_stream_state, granule_vals   } "ossGranule_vals"    ''OggStreamState
+deriveStorable #{offset ogg_stream_state, lacing_storage } "ossLacing_storage"  ''OggStreamState
+deriveStorable #{offset ogg_stream_state, lacing_fill    } "ossLacing_fill"     ''OggStreamState
+deriveStorable #{offset ogg_stream_state, lacing_packet  } "ossLacing_packet"   ''OggStreamState
+deriveStorable #{offset ogg_stream_state, lacing_returned} "ossLacing_returned" ''OggStreamState
+deriveStorable #{offset ogg_stream_state, header         } "ossHeader"          ''OggStreamState
+deriveStorable #{offset ogg_stream_state, header_fill    } "ossHeader_fill"     ''OggStreamState
+deriveStorable #{offset ogg_stream_state, e_o_s          } "ossE_o_s"           ''OggStreamState
+deriveStorable #{offset ogg_stream_state, b_o_s          } "ossB_o_s"           ''OggStreamState
+deriveStorable #{offset ogg_stream_state, serialno       } "ossSerialno"        ''OggStreamState
+deriveStorable #{offset ogg_stream_state, pageno         } "ossPageno"          ''OggStreamState
+deriveStorable #{offset ogg_stream_state, packetno       } "ossPacketno"        ''OggStreamState
+deriveStorable #{offset ogg_stream_state, granulepos     } "ossGranulepos"      ''OggStreamState
+
 instance Storable OggStreamState where
   sizeOf _    = #size      ogg_stream_state
   alignment _ = #alignment ogg_stream_state
 
   peek ptr =
     OggStreamState
-      <$> #{peek ogg_stream_state, body_data      } ptr
-      <*> #{peek ogg_stream_state, body_storage   } ptr
-      <*> #{peek ogg_stream_state, body_fill      } ptr
-      <*> #{peek ogg_stream_state, body_returned  } ptr
-      <*> #{peek ogg_stream_state, lacing_vals    } ptr
-      <*> #{peek ogg_stream_state, granule_vals   } ptr
-      <*> #{peek ogg_stream_state, lacing_storage } ptr
-      <*> #{peek ogg_stream_state, lacing_fill    } ptr
-      <*> #{peek ogg_stream_state, lacing_packet  } ptr
-      <*> #{peek ogg_stream_state, lacing_returned} ptr
-      <*> #{peek ogg_stream_state, header         } ptr
-      <*> #{peek ogg_stream_state, header_fill    } ptr
-      <*> #{peek ogg_stream_state, e_o_s          } ptr
-      <*> #{peek ogg_stream_state, b_o_s          } ptr
-      <*> #{peek ogg_stream_state, serialno       } ptr
-      <*> #{peek ogg_stream_state, pageno         } ptr
-      <*> #{peek ogg_stream_state, packetno       } ptr
-      <*> #{peek ogg_stream_state, granulepos     } ptr
-
+      <$> peekField @"ossBody_data"       ptr
+      <*> peekField @"ossBody_storage"    ptr
+      <*> peekField @"ossBody_fill"       ptr
+      <*> peekField @"ossBody_returned"   ptr
+      <*> peekField @"ossLacing_vals"     ptr
+      <*> peekField @"ossGranule_vals"    ptr
+      <*> peekField @"ossLacing_storage"  ptr
+      <*> peekField @"ossLacing_fill"     ptr
+      <*> peekField @"ossLacing_packet"   ptr
+      <*> peekField @"ossLacing_returned" ptr
+      <*> peekField @"ossHeader"          ptr
+      <*> peekField @"ossHeader_fill"     ptr
+      <*> peekField @"ossE_o_s"           ptr
+      <*> peekField @"ossB_o_s"           ptr
+      <*> peekField @"ossSerialno"        ptr
+      <*> peekField @"ossPageno"          ptr
+      <*> peekField @"ossPacketno"        ptr
+      <*> peekField @"ossGranulepos"      ptr
 
   poke ptr val = do
-    #{poke ogg_stream_state, body_data      } ptr $ val & ossBody_data
-    #{poke ogg_stream_state, body_storage   } ptr $ val & ossBody_storage
-    #{poke ogg_stream_state, body_fill      } ptr $ val & ossBody_fill
-    #{poke ogg_stream_state, body_returned  } ptr $ val & ossBody_returned
-    #{poke ogg_stream_state, lacing_vals    } ptr $ val & ossLacing_vals
-    #{poke ogg_stream_state, granule_vals   } ptr $ val & ossGranule_vals
-    #{poke ogg_stream_state, lacing_storage } ptr $ val & ossLacing_storage
-    #{poke ogg_stream_state, lacing_fill    } ptr $ val & ossLacing_fill
-    #{poke ogg_stream_state, lacing_packet  } ptr $ val & ossLacing_packet
-    #{poke ogg_stream_state, lacing_returned} ptr $ val & ossLacing_returned
-    #{poke ogg_stream_state, header         } ptr $ val & ossHeader
-    #{poke ogg_stream_state, header_fill    } ptr $ val & ossHeader_fill
-    #{poke ogg_stream_state, e_o_s          } ptr $ val & ossE_o_s
-    #{poke ogg_stream_state, b_o_s          } ptr $ val & ossB_o_s
-    #{poke ogg_stream_state, serialno       } ptr $ val & ossSerialno
-    #{poke ogg_stream_state, pageno         } ptr $ val & ossPageno
-    #{poke ogg_stream_state, packetno       } ptr $ val & ossPacketno
-    #{poke ogg_stream_state, granulepos     } ptr $ val & ossGranulepos
+    pokeRecordField @"ossBody_data"       ptr val
+    pokeRecordField @"ossBody_storage"    ptr val
+    pokeRecordField @"ossBody_fill"       ptr val
+    pokeRecordField @"ossBody_returned"   ptr val
+    pokeRecordField @"ossLacing_vals"     ptr val
+    pokeRecordField @"ossGranule_vals"    ptr val
+    pokeRecordField @"ossLacing_storage"  ptr val
+    pokeRecordField @"ossLacing_fill"     ptr val
+    pokeRecordField @"ossLacing_packet"   ptr val
+    pokeRecordField @"ossLacing_returned" ptr val
+    pokeRecordField @"ossHeader"          ptr val
+    pokeRecordField @"ossHeader_fill"     ptr val
+    pokeRecordField @"ossE_o_s"           ptr val
+    pokeRecordField @"ossB_o_s"           ptr val
+    pokeRecordField @"ossSerialno"        ptr val
+    pokeRecordField @"ossPageno"          ptr val
+    pokeRecordField @"ossPacketno"        ptr val
+    pokeRecordField @"ossGranulepos"      ptr val
 
 
 
@@ -152,26 +187,35 @@ data OggPacket =
          }
        deriving Show
 
+deriveStorable #{offset ogg_packet, packet    } "opPacket"     ''OggPacket
+deriveStorable #{offset ogg_packet, bytes     } "opBytes"      ''OggPacket
+deriveStorable #{offset ogg_packet, b_o_s     } "opB_o_s"      ''OggPacket
+deriveStorable #{offset ogg_packet, e_o_s     } "opE_o_s"      ''OggPacket
+deriveStorable #{offset ogg_packet, granulepos} "opGranulepos" ''OggPacket
+deriveStorable #{offset ogg_packet, packetno  } "opPacketno"   ''OggPacket
+
+
+
 instance Storable OggPacket where
   sizeOf _    = #size      ogg_packet
   alignment _ = #alignment ogg_packet
 
   peek ptr =
     OggPacket
-      <$> #{peek ogg_packet, packet    } ptr
-      <*> #{peek ogg_packet, bytes     } ptr
-      <*> #{peek ogg_packet, b_o_s     } ptr
-      <*> #{peek ogg_packet, e_o_s     } ptr
-      <*> #{peek ogg_packet, granulepos} ptr
-      <*> #{peek ogg_packet, packetno  } ptr
+      <$> peekField @"opPacket"     ptr
+      <*> peekField @"opBytes"      ptr
+      <*> peekField @"opB_o_s"      ptr
+      <*> peekField @"opE_o_s"      ptr
+      <*> peekField @"opGranulepos" ptr
+      <*> peekField @"opPacketno"   ptr
 
   poke ptr val = do
-     #{poke ogg_packet, packet    } ptr $ val & opPacket
-     #{poke ogg_packet, bytes     } ptr $ val & opBytes
-     #{poke ogg_packet, b_o_s     } ptr $ val & opB_o_s
-     #{poke ogg_packet, e_o_s     } ptr $ val & opE_o_s
-     #{poke ogg_packet, granulepos} ptr $ val & opGranulepos
-     #{poke ogg_packet, packetno  } ptr $ val & opPacketno
+    pokeRecordField @"opPacket"     ptr val
+    pokeRecordField @"opBytes"      ptr val
+    pokeRecordField @"opB_o_s"      ptr val
+    pokeRecordField @"opE_o_s"      ptr val
+    pokeRecordField @"opGranulepos" ptr val
+    pokeRecordField @"opPacketno"   ptr val
 
 
 
@@ -187,25 +231,33 @@ data OggSyncState =
          }
        deriving Show
 
+deriveStorable #{offset ogg_sync_state, data       } "ossData"        ''OggSyncState
+deriveStorable #{offset ogg_sync_state, storage    } "ossStorage"     ''OggSyncState
+deriveStorable #{offset ogg_sync_state, fill       } "ossFill"        ''OggSyncState
+deriveStorable #{offset ogg_sync_state, returned   } "ossReturned"    ''OggSyncState
+deriveStorable #{offset ogg_sync_state, unsynced   } "ossUnsynced"    ''OggSyncState
+deriveStorable #{offset ogg_sync_state, headerbytes} "ossHeaderbytes" ''OggSyncState
+deriveStorable #{offset ogg_sync_state, bodybytes  } "ossBodybytes"   ''OggSyncState
+
 instance Storable OggSyncState where
   sizeOf _    = #size      ogg_sync_state
   alignment _ = #alignment ogg_sync_state
 
   peek ptr =
     OggSyncState
-      <$> #{peek ogg_sync_state, data       } ptr
-      <*> #{peek ogg_sync_state, storage    } ptr
-      <*> #{peek ogg_sync_state, fill       } ptr
-      <*> #{peek ogg_sync_state, returned   } ptr
-      <*> #{peek ogg_sync_state, unsynced   } ptr
-      <*> #{peek ogg_sync_state, headerbytes} ptr
-      <*> #{peek ogg_sync_state, bodybytes  } ptr
+      <$> peekField @"ossData"        ptr
+      <*> peekField @"ossStorage"     ptr
+      <*> peekField @"ossFill"        ptr
+      <*> peekField @"ossReturned"    ptr
+      <*> peekField @"ossUnsynced"    ptr
+      <*> peekField @"ossHeaderbytes" ptr
+      <*> peekField @"ossBodybytes"   ptr
 
   poke ptr val = do
-    #{poke ogg_sync_state, data       } ptr $ val & ossData
-    #{poke ogg_sync_state, storage    } ptr $ val & ossStorage
-    #{poke ogg_sync_state, fill       } ptr $ val & ossFill
-    #{poke ogg_sync_state, returned   } ptr $ val & ossReturned
-    #{poke ogg_sync_state, unsynced   } ptr $ val & ossUnsynced
-    #{poke ogg_sync_state, headerbytes} ptr $ val & ossHeaderbytes
-    #{poke ogg_sync_state, bodybytes  } ptr $ val & ossBodybytes
+    pokeRecordField @"ossData"        ptr val
+    pokeRecordField @"ossStorage"     ptr val
+    pokeRecordField @"ossFill"        ptr val
+    pokeRecordField @"ossReturned"    ptr val
+    pokeRecordField @"ossUnsynced"    ptr val
+    pokeRecordField @"ossHeaderbytes" ptr val
+    pokeRecordField @"ossBodybytes"   ptr val

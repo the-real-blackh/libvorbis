@@ -8,6 +8,7 @@ module Codec.Audio.Vorbis.File.Raw.Decoding
   , FilterFunc
   , ov_read_filter
   , ov_crosslap
+  , VorbisReadFormat
   ) where
 
 import           Codec.Audio.Vorbis.File.Raw.Decoding.Internal

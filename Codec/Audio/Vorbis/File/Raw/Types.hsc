@@ -1,5 +1,9 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
-{-# LANGUAGE PatternSynonyms #-}
+{-# LANGUAGE DataKinds
+           , FlexibleInstances
+           , ForeignFunctionInterface
+           , PatternSynonyms
+           , TemplateHaskell
+           , TypeApplications #-}
 
 module Codec.Audio.Vorbis.File.Raw.Types
   ( OggVorbisFile (..)
@@ -21,9 +25,10 @@ module Codec.Audio.Vorbis.File.Raw.Types
 import           Codec.Audio.Vorbis.File.Raw.Types.Internal
 import           Codec.Audio.Vorbis.Raw.Types
 import           Codec.Container.Ogg.Raw.Types
+import           Data.Field
+import           Data.Field.Storable.TH
 
 import           Data.Coerce
-import           Data.Function ((&))
 import           Foreign
 import           System.IO.Unsafe
 
@@ -58,58 +63,81 @@ data OggVorbisFile a =
          }
        deriving Show
 
+deriveStorable1 #{offset OggVorbis_File, datasource      } "ovfDatasource"       ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, seekable        } "ovfSeekable"         ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, offset          } "ovfOffset"           ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, end             } "ovfEnd"              ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, oy              } "ovfOy"               ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, links           } "ovfLinks"            ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, offsets         } "ovfOffsets"          ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, dataoffsets     } "ovfDataoffsets"      ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, serialnos       } "ovfSerialnos"        ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, pcmlengths      } "ovfPcmlengths"       ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, vi              } "ovfVi"               ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, vc              } "ovfVc"               ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, pcm_offset      } "ovfPcm_offset"       ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, ready_state     } "ovfReady_state"      ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, current_serialno} "ovfCurrent_serialno" ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, current_link    } "ovfCurrent_link"     ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, bittrack        } "ovfBittrack"         ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, samptrack       } "ovfSamptrack"        ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, os              } "ovfOs"               ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, vd              } "ovfVd"               ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, vb              } "ovfVb"               ''OggVorbisFile
+deriveStorable1 #{offset OggVorbis_File, callbacks       } "ovfCallbacks"        ''OggVorbisFile
+
 instance Storable (OggVorbisFile a) where
   sizeOf _    = #size      OggVorbis_File
   alignment _ = #alignment OggVorbis_File
 
   peek ptr =
     OggVorbisFile
-      <$> #{peek OggVorbis_File, datasource      } ptr
-      <*> #{peek OggVorbis_File, seekable        } ptr
-      <*> #{peek OggVorbis_File, offset          } ptr
-      <*> #{peek OggVorbis_File, end             } ptr
-      <*> #{peek OggVorbis_File, oy              } ptr
-      <*> #{peek OggVorbis_File, links           } ptr
-      <*> #{peek OggVorbis_File, offsets         } ptr
-      <*> #{peek OggVorbis_File, dataoffsets     } ptr
-      <*> #{peek OggVorbis_File, serialnos       } ptr
-      <*> #{peek OggVorbis_File, pcmlengths      } ptr
-      <*> #{peek OggVorbis_File, vi              } ptr
-      <*> #{peek OggVorbis_File, vc              } ptr
-      <*> #{peek OggVorbis_File, pcm_offset      } ptr
-      <*> #{peek OggVorbis_File, ready_state     } ptr
-      <*> #{peek OggVorbis_File, current_serialno} ptr
-      <*> #{peek OggVorbis_File, current_link    } ptr
-      <*> #{peek OggVorbis_File, bittrack        } ptr
-      <*> #{peek OggVorbis_File, samptrack       } ptr
-      <*> #{peek OggVorbis_File, os              } ptr
-      <*> #{peek OggVorbis_File, vd              } ptr
-      <*> #{peek OggVorbis_File, vb              } ptr
-      <*> #{peek OggVorbis_File, callbacks       } ptr
+      <$> peekField @"ovfDatasource"       ptr
+      <*> peekField @"ovfSeekable"         ptr
+      <*> peekField @"ovfOffset"           ptr
+      <*> peekField @"ovfEnd"              ptr
+      <*> peekField @"ovfOy"               ptr
+      <*> peekField @"ovfLinks"            ptr
+      <*> peekField @"ovfOffsets"          ptr
+      <*> peekField @"ovfDataoffsets"      ptr
+      <*> peekField @"ovfSerialnos"        ptr
+      <*> peekField @"ovfPcmlengths"       ptr
+      <*> peekField @"ovfVi"               ptr
+      <*> peekField @"ovfVc"               ptr
+      <*> peekField @"ovfPcm_offset"       ptr
+      <*> peekField @"ovfReady_state"      ptr
+      <*> peekField @"ovfCurrent_serialno" ptr
+      <*> peekField @"ovfCurrent_link"     ptr
+      <*> peekField @"ovfBittrack"         ptr
+      <*> peekField @"ovfSamptrack"        ptr
+      <*> peekField @"ovfOs"               ptr
+      <*> peekField @"ovfVd"               ptr
+      <*> peekField @"ovfVb"               ptr
+      <*> peekField @"ovfCallbacks"        ptr
 
   poke ptr val = do
-    #{poke OggVorbis_File, datasource      } ptr $ val & ovfDatasource
-    #{poke OggVorbis_File, seekable        } ptr $ val & ovfSeekable
-    #{poke OggVorbis_File, offset          } ptr $ val & ovfOffset
-    #{poke OggVorbis_File, end             } ptr $ val & ovfEnd
-    #{poke OggVorbis_File, oy              } ptr $ val & ovfOy
-    #{poke OggVorbis_File, links           } ptr $ val & ovfLinks
-    #{poke OggVorbis_File, offsets         } ptr $ val & ovfOffsets
-    #{poke OggVorbis_File, dataoffsets     } ptr $ val & ovfDataoffsets
-    #{poke OggVorbis_File, serialnos       } ptr $ val & ovfSerialnos
-    #{poke OggVorbis_File, pcmlengths      } ptr $ val & ovfPcmlengths
-    #{poke OggVorbis_File, vi              } ptr $ val & ovfVi
-    #{poke OggVorbis_File, vc              } ptr $ val & ovfVc
-    #{poke OggVorbis_File, pcm_offset      } ptr $ val & ovfPcm_offset
-    #{poke OggVorbis_File, ready_state     } ptr $ val & ovfReady_state
-    #{poke OggVorbis_File, current_serialno} ptr $ val & ovfCurrent_serialno
-    #{poke OggVorbis_File, current_link    } ptr $ val & ovfCurrent_link
-    #{poke OggVorbis_File, bittrack        } ptr $ val & ovfBittrack
-    #{poke OggVorbis_File, samptrack       } ptr $ val & ovfSamptrack
-    #{poke OggVorbis_File, os              } ptr $ val & ovfOs
-    #{poke OggVorbis_File, vd              } ptr $ val & ovfVd
-    #{poke OggVorbis_File, vb              } ptr $ val & ovfVb
-    #{poke OggVorbis_File, callbacks       } ptr $ val & ovfCallbacks
+    pokeRecordField @"ovfDatasource"       ptr val
+    pokeRecordField @"ovfSeekable"         ptr val
+    pokeRecordField @"ovfOffset"           ptr val
+    pokeRecordField @"ovfEnd"              ptr val
+    pokeRecordField @"ovfOy"               ptr val
+    pokeRecordField @"ovfLinks"            ptr val
+    pokeRecordField @"ovfOffsets"          ptr val
+    pokeRecordField @"ovfDataoffsets"      ptr val
+    pokeRecordField @"ovfSerialnos"        ptr val
+    pokeRecordField @"ovfPcmlengths"       ptr val
+    pokeRecordField @"ovfVi"               ptr val
+    pokeRecordField @"ovfVc"               ptr val
+    pokeRecordField @"ovfPcm_offset"       ptr val
+    pokeRecordField @"ovfReady_state"      ptr val
+    pokeRecordField @"ovfCurrent_serialno" ptr val
+    pokeRecordField @"ovfCurrent_link"     ptr val
+    pokeRecordField @"ovfBittrack"         ptr val
+    pokeRecordField @"ovfSamptrack"        ptr val
+    pokeRecordField @"ovfOs"               ptr val
+    pokeRecordField @"ovfVd"               ptr val
+    pokeRecordField @"ovfVb"               ptr val
+    pokeRecordField @"ovfCallbacks"        ptr val
 
 
 

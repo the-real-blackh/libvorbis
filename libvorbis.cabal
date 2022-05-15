@@ -43,6 +43,10 @@ library
                        Codec.Container.Ogg.Raw
                        Codec.Container.Ogg.Raw.Internal
 
+                       Data.Field
+                       Data.Field.Internal
+                       Data.Field.Storable.TH
+
   other-modules:       Codec.Audio.Vorbis.Enc.Raw.Types
 
                        Codec.Audio.Vorbis.File.Raw.Decoding
@@ -80,6 +84,7 @@ library
 
   build-depends:       base >= 4.10 && < 5
                      , bytestring
+                     , template-haskell
 
   include-dirs:        libogg/include
                        libogg/src
@@ -131,6 +136,8 @@ test-suite dynamic-function-check
                      , test
   build-depends:       base >= 4.10 && < 5
                      , bytestring
+                     , libvorbis
+                     , template-haskell
 
   other-modules:       Codec.Audio.Vorbis.Enc.Raw
                        Codec.Audio.Vorbis.Enc.Raw.Internal
@@ -178,45 +185,7 @@ test-suite dynamic-function-check
                        Codec.Container.Ogg.Raw.Internal.Exception
                        Codec.Container.Ogg.Raw.Types
 
+                       Data.Field
+                       Data.Field.Internal
+                       Data.Field.Storable.TH
                        Dynamic.Bind
-
-  include-dirs:        libogg/include
-                       libogg/src
-                       libvorbis/include
-                       libvorbis/lib
-                       libvorbis/lib/books/coupled
-                       libvorbis/lib/books/floor
-                       libvorbis/lib/books/uncoupled
-                       libvorbis/lib/modes
-                       libvorbis-plus/include
-
-  ghc-options:         -Wall
-
-  c-sources:           libogg/src/bitwise.c
-                       libogg/src/framing.c
-                       libvorbis/lib/analysis.c
-                    -- libvorbis/lib/barkmel.c -- Another main?
-                       libvorbis/lib/bitrate.c
-                       libvorbis/lib/block.c
-                       libvorbis/lib/codebook.c
-                       libvorbis/lib/envelope.c
-                       libvorbis/lib/floor0.c
-                       libvorbis/lib/floor1.c
-                       libvorbis/lib/info.c
-                       libvorbis/lib/lookup.c
-                       libvorbis/lib/lpc.c
-                       libvorbis/lib/lsp.c
-                       libvorbis/lib/mapping0.c
-                       libvorbis/lib/mdct.c
-                       libvorbis/lib/psy.c
-                    -- libvorbis/lib/psytune.c -- Dead code
-                       libvorbis/lib/registry.c
-                       libvorbis/lib/res0.c
-                       libvorbis/lib/sharedbook.c
-                       libvorbis/lib/smallft.c
-                       libvorbis/lib/synthesis.c
-                    -- libvorbis/lib/tone.c -- Another main?
-                       libvorbis/lib/vorbisenc.c
-                       libvorbis/lib/vorbisfile.c
-                       libvorbis/lib/window.c
-                       libvorbis-plus/lib/vorbisfile-plus.c
