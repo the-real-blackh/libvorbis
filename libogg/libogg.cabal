@@ -24,6 +24,7 @@ source-repository head
 
 common includes
   install-includes:    ogg/ogg.h
+                       ogg/os_types.h
 
   include-dirs:        libogg/include
                        libogg/src
