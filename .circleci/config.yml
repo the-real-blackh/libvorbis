@@ -12,7 +12,7 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore
-          key: arm64-{{ checksum "libvorbis.cabal" }}
+          key: arm64-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
       - run:
           name: Install GHC
           command: |
@@ -33,7 +33,7 @@ jobs:
           command: cabal new-build all --enable-tests
       - save_cache:
           name: Cache
-          key: arm64-{{ checksum "libvorbis.cabal" }}
+          key: arm64-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "/root/.cabal"
             - "dist-newstyle"
@@ -52,7 +52,7 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore
-          key: linux-<< parameters.version >>-{{ checksum "libvorbis.cabal" }}
+          key: linux-<< parameters.version >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
       - run:
           name: Install GHC
           command: |
@@ -62,13 +62,13 @@ jobs:
 
       - run:
           name: Update Dependencies
-          command: cabal new-update && cabal new-install --lib
+          command: cabal new-update && cabal new-install all --lib
       - run:
           name: Build
           command: cabal new-build all --enable-tests --enable-documentation
       - save_cache:
           name: Cache
-          key: linux-<< parameters.version >>-{{ checksum "libvorbis.cabal" }}
+          key: linux-<< parameters.version >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "/root/.cabal"
             - "dist-newstyle"
@@ -87,7 +87,7 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore
-          key: macos-<< parameters.resolver >>-{{ checksum "libvorbis.cabal" }}
+          key: macos-<< parameters.resolver >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
       - run:
           name: Install Stack
           command: |
@@ -101,7 +101,7 @@ jobs:
             stack test --no-terminal --no-run-tests
       - save_cache:
           name: Cache
-          key: macos-<< parameters.resolver >>-{{ checksum "libvorbis.cabal" }}
+          key: macos-<< parameters.resolver >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "$HOME/.stack"
             - ".stack-work"
@@ -118,7 +118,7 @@ jobs:
       - checkout
       - restore_cache:
           name: Restore
-          key: windows--<< parameters.resolver >>-{{ checksum "libvorbis.cabal" }}
+          key: windows--<< parameters.resolver >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
       - run:
           name: Install Stack
           shell: bash.exe
@@ -141,7 +141,7 @@ jobs:
             stack test --no-run-tests --no-terminal
       - save_cache:
           name: Cache
-          key: windows-<< parameters.resolver >>-{{ checksum "libvorbis.cabal" }}
+          key: windows-<< parameters.resolver >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "$APPDATA/stack"
             - ".stack-work"
