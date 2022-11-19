@@ -12,7 +12,6 @@ license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Oleksii Divak
 maintainer:          Oleksii Divak <frozenwitness@gmail.com>
-copyright:           Copyright © 2022 Oleksii Divak
 category:            Codec
 build-type:          Simple
 extra-source-files:  libogg/include/ogg/*.h
