@@ -28,8 +28,7 @@ source-repository head
   location: https://github.com/the-real-blackh/libvorbis
 
 common includes
-  include-dirs:        libogg/include
-                       libvorbis/include
+  include-dirs:        libvorbis/include
                        libvorbis/lib
                        libvorbis/lib/books/coupled
                        libvorbis/lib/books/floor

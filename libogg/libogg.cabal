@@ -23,7 +23,7 @@ source-repository head
   location: https://github.com/burningwitness/libogg
 
 common includes
-  install-includes:    libogg/include/ogg/ogg.h
+  install-includes:    ogg/ogg.h
 
   include-dirs:        libogg/include
                        libogg/src

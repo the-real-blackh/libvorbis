@@ -1,4 +1,5 @@
-{-# LANGUAGE FlexibleInstances
+{-# LANGUAGE FlexibleContexts
+           , FlexibleInstances
            , FunctionalDependencies
            , UndecidableInstances #-}
 
