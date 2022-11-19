@@ -21,6 +21,11 @@ main
       _ <- bind vorbis_encode_setup_vbr
 
       -- Codec.Audio.Vorbis.File.Raw
+      _ <- bind poke_OV_CALLBACKS_DEFAULT
+      _ <- bind poke_OV_CALLBACKS_NOCLOSE
+      _ <- bind poke_OV_CALLBACKS_STREAMONLY
+      _ <- bind poke_OV_CALLBACKS_STREAMONLY_NOCLOSE
+
       -- Setup/Teardown
       _ <- bind ov_fopen
       _ <- bind ov_open

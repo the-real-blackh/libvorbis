@@ -28,7 +28,7 @@ int ov_open_callbacks_plus
       , ov_callbacks *callbacks
       )
   {
-    ov_open_callbacks (f, vf, initial, ibytes, *callbacks);
+    return ov_open_callbacks (f, vf, initial, ibytes, *callbacks);
   }
 
 int ov_test_callbacks_plus
@@ -39,5 +39,5 @@ int ov_test_callbacks_plus
       , ov_callbacks *callbacks
       )
   {
-    ov_test_callbacks (f, vf, initial, ibytes, *callbacks);
+    return ov_test_callbacks (f, vf, initial, ibytes, *callbacks);
   }

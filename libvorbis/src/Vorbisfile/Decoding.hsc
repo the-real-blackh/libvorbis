@@ -49,7 +49,7 @@ foreign import ccall "ov_read_filter"
     -> #{type int}       -- ^ word
     -> #{type int}       -- ^ sgned
     -> Ptr #{type int}   -- ^ bitstream
-    -> FunPtr FilterFunc -- ^ 
+    -> FunPtr FilterFunc
     -> Ptr ()            -- ^ filter_param
     -> IO #type long
 

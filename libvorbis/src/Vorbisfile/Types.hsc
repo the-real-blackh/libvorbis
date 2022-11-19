@@ -9,22 +9,7 @@
 {-# LANGUAGE PatternSynonyms
            , TypeApplications #-}
 
-module Vorbisfile.Types
-{-( OggVorbisFile (..)
-  , ReadFunc
-  , SeekFunc
-  , CloseFunc
-  , TellFunc
-  , OvCallbacks (..)
-  , ovCallbacks
-  , pattern OV_CALLBACKS_DEFAULT
-  , pattern OV_CALLBACKS_NOCLOSE
-  , pattern OV_CALLBACKS_STREAMONLY
-  , pattern OV_CALLBACKS_STREAMONLY_NOCLOSE
-  , OvMemoryPointer
-  , ovMemoryPointer
-  , pattern OV_CALLBACKS_FROM_MEMORY
-  )-} where
+module Vorbisfile.Types where
 
 import           Libogg
 import           Libvorbis.Types
@@ -189,105 +174,17 @@ instance Storable OvCallbacks where
     pokeField @"seek_func"  ptr_ val
     pokeField @"close_func" ptr_ val
     pokeField @"tell_func"  ptr_ val
-{-
--- | Converts a set of Haskell functions to 'OvCallbacks'.
-ovCallbacks
-  :: ReadFunc a
-  -> Maybe (SeekFunc a)
-  -> Maybe (CloseFunc a)
-  -> Maybe (TellFunc a)
-  -> OvCallbacks a
-ovCallbacks raed maySeek mayClose mayTell =
-  unsafePerformIO . coerce $
-    OvCallbacks
-      <$> mkReadFunc  (coerce raed)
-      <*> maybe (pure nullFunPtr) (mkSeekFunc  . coerce) maySeek
-      <*> maybe (pure nullFunPtr) (mkCloseFunc . coerce) mayClose
-      <*> maybe (pure nullFunPtr) (mkTellFunc  . coerce) mayTell
 
 
 
-pattern OV_CALLBACKS_DEFAULT :: OvCallbacks ()
-pattern OV_CALLBACKS_DEFAULT <- _
-  where
-    OV_CALLBACKS_DEFAULT =
-      unsafePerformIO $
-        alloca $ \ptr -> do
-          ov_callbacks_default_ptr ptr
-          peek ptr
+foreign import ccall unsafe "ov_callbacks_default_ptr"
+  poke_OV_CALLBACKS_DEFAULT :: Ptr OvCallbacks -> IO ()
 
-pattern OV_CALLBACKS_NOCLOSE :: OvCallbacks ()
-pattern OV_CALLBACKS_NOCLOSE <- _
-  where
-    OV_CALLBACKS_NOCLOSE =
-      unsafePerformIO $
-        alloca $ \ptr -> do
-          ov_callbacks_noclose_ptr ptr
-          peek ptr
+foreign import ccall unsafe "ov_callbacks_noclose_ptr"
+  poke_OV_CALLBACKS_NOCLOSE :: Ptr OvCallbacks -> IO ()
 
-pattern OV_CALLBACKS_STREAMONLY :: OvCallbacks ()
-pattern OV_CALLBACKS_STREAMONLY <- _
-  where
-    OV_CALLBACKS_STREAMONLY =
-      unsafePerformIO $
-        alloca $ \ptr -> do
-          ov_callbacks_streamonly_ptr ptr
-          peek ptr
+foreign import ccall unsafe "ov_callbacks_streamonly_ptr"
+  poke_OV_CALLBACKS_STREAMONLY :: Ptr OvCallbacks -> IO ()
 
-pattern OV_CALLBACKS_STREAMONLY_NOCLOSE :: OvCallbacks ()
-pattern OV_CALLBACKS_STREAMONLY_NOCLOSE <- _
-  where
-    OV_CALLBACKS_STREAMONLY_NOCLOSE =
-      unsafePerformIO $
-        alloca $ \ptr -> do
-          ov_callbacks_streamonly_noclose_ptr ptr
-          peek ptr
-
-
-
--- | Smart constructor for 'OvMemoryPointer'.
-ovMemoryPointer :: Ptr a -> #{type size_t} -> OvMemoryPointer a
-ovMemoryPointer datasource total = OvMemoryPointer datasource total 0
-
--- | Extra 'OvCallbacks' for reading files that reside in memory.
-pattern OV_CALLBACKS_FROM_MEMORY :: OvCallbacks (OvMemoryPointer a)
-pattern OV_CALLBACKS_FROM_MEMORY <- _
-  where
-    OV_CALLBACKS_FROM_MEMORY =
-      let readFunc buffer size nmemb ptr = do
-            mem@(OvMemoryPointer datasource total current) <- peek ptr
-            case () of
-              () | current >= total               -> return 0
-                 | size * nmemb > total - current -> do
-                     copyBytes buffer (datasource `plusPtr` fromIntegral current) (fromIntegral $ total - current)
-                     poke ptr $ mem { ompCurrent = total }
-                     return (total - current)
-                 | otherwise                -> do
-                     copyBytes buffer (datasource `plusPtr` fromIntegral current) (fromIntegral $ size * nmemb)
-                     poke ptr $ mem { ompCurrent = current + size * nmemb }
-                     return (size * nmemb)
-
-          seekFunc ptr off origin = do
-            mem@(OvMemoryPointer _ total current) <- peek ptr
-            let mayNewCurrent =
-                  case origin of
-                    #{const SEEK_SET} -> Just $ fromIntegral off
-                    #{const SEEK_CUR} -> Just $ fromIntegral off + fromIntegral current
-                    #{const SEEK_END} -> Just $ fromIntegral off + total
-                    _                 -> Nothing
-            case mayNewCurrent of
-              Nothing         -> return $ -1
-              Just newCurrent -> if newCurrent < 0 || newCurrent > total
-                                   then return $ -1
-                                   else do
-                                     poke ptr $ mem { ompCurrent = newCurrent }
-                                     return 0
-    
-          tellFunc ptr = fromIntegral . ompCurrent <$> peek ptr
-
-      in ovCallbacks
-           readFunc
-           ( Just seekFunc )
-           Nothing
-           ( Just tellFunc )
-           -}
+foreign import ccall unsafe "ov_callbacks_streamonly_noclose_ptr"
+  poke_OV_CALLBACKS_STREAMONLY_NOCLOSE :: Ptr OvCallbacks -> IO ()
