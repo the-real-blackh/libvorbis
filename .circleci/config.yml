@@ -62,7 +62,7 @@ jobs:
 
       - run:
           name: Update Dependencies
-          command: cabal new-update && cabal new-install all --lib
+          command: cabal new-update
       - run:
           name: Build
           command: cabal new-build all --enable-tests --enable-documentation
