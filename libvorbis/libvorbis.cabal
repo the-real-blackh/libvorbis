@@ -75,6 +75,7 @@ library
                        Libvorbis.Decoding
                        Libvorbis.Encoding
                        Libvorbis.Metadata
+                       Libvorbis.Return
                        Libvorbis.Types
 
                        Vorbisenc.Types
@@ -119,6 +120,7 @@ test-suite static
                        Libvorbis.Decoding
                        Libvorbis.Encoding
                        Libvorbis.Metadata
+                       Libvorbis.Return
                        Libvorbis.Types
 
                        Vorbisenc.Types

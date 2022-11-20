@@ -47,6 +47,21 @@ module Libvorbis
   , vorbis_comment_query
   , vorbis_comment_query_count
   , vorbis_commentheader_out
+    -- ** Return Codes
+  , pattern OV_FALSE
+  , pattern OV_EOF
+  , pattern OV_HOLE
+  , pattern OV_EREAD
+  , pattern OV_EFAULT
+  , pattern OV_EIMPL
+  , pattern OV_EINVAL
+  , pattern OV_ENOTVORBIS
+  , pattern OV_EBADHEADER
+  , pattern OV_EVERSION
+  , pattern OV_ENOTAUDIO
+  , pattern OV_EBADPACKET
+  , pattern OV_EBADLINK
+  , pattern OV_ENOSEEK
   ) where
 
 import           Libogg
@@ -54,4 +69,5 @@ import           Libvorbis.Both
 import           Libvorbis.Decoding
 import           Libvorbis.Encoding
 import           Libvorbis.Metadata
+import           Libvorbis.Return
 import           Libvorbis.Types

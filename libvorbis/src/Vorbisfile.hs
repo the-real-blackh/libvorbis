@@ -54,9 +54,25 @@ module Vorbisfile
   , ov_time_tell
   , ov_info
   , ov_comment
+    -- ** Return Codes
+  , pattern OV_FALSE
+  , pattern OV_EOF
+  , pattern OV_HOLE
+  , pattern OV_EREAD
+  , pattern OV_EFAULT
+  , pattern OV_EIMPL
+  , pattern OV_EINVAL
+  , pattern OV_ENOTVORBIS
+  , pattern OV_EBADHEADER
+  , pattern OV_EVERSION
+  , pattern OV_ENOTAUDIO
+  , pattern OV_EBADPACKET
+  , pattern OV_EBADLINK
+  , pattern OV_ENOSEEK
   ) where
 
 import           Libogg
+import           Libvorbis.Return
 import           Libvorbis.Types
 import           Vorbisfile.Decoding
 import           Vorbisfile.File
