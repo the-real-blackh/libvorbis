@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Libvorbis.Both where
 
@@ -11,14 +13,14 @@ import           Foreign.Ptr
 
 #include "vorbis/codec.h"
 
-foreign import ccall "vorbis_block_clear"
+foreign import CALLCV "vorbis/codec.h vorbis_block_clear"
   vorbis_block_clear
     :: Ptr VorbisBlock -- ^ vb
     -> IO #type int
 
 
 
-foreign import ccall "vorbis_block_init"
+foreign import CALLCV "vorbis/codec.h vorbis_block_init"
   vorbis_block_init
     :: Ptr VorbisDspState -- ^ v
     -> Ptr VorbisBlock    -- ^ vb
@@ -26,14 +28,14 @@ foreign import ccall "vorbis_block_init"
 
 
 
-foreign import ccall "vorbis_dsp_clear"
+foreign import CALLCV "vorbis/codec.h vorbis_dsp_clear"
   vorbis_dsp_clear
     :: Ptr VorbisDspState -- ^ v
     -> IO ()
 
 
 
-foreign import ccall "vorbis_granule_time"
+foreign import CALLCV "vorbis/codec.h vorbis_granule_time"
   vorbis_granule_time
     :: Ptr VorbisDspState -- ^ v
     -> Ogg_Int64_t        -- ^ granulepos
@@ -41,7 +43,7 @@ foreign import ccall "vorbis_granule_time"
 
 
 
-foreign import ccall "vorbis_info_blocksize"
+foreign import CALLCV "vorbis/codec.h vorbis_info_blocksize"
   vorbis_info_blocksize
     :: Ptr VorbisInfo -- ^ vi
     -> #{type int}    -- ^ zo
@@ -49,20 +51,20 @@ foreign import ccall "vorbis_info_blocksize"
 
 
 
-foreign import ccall "vorbis_info_clear"
+foreign import CALLCV "vorbis/codec.h vorbis_info_clear"
   vorbis_info_clear
     :: Ptr VorbisInfo -- ^ vi
     -> IO ()
 
 
 
-foreign import ccall "vorbis_info_init"
+foreign import CALLCV "vorbis/codec.h vorbis_info_init"
   vorbis_info_init
     :: Ptr VorbisInfo -- ^ vi
     -> IO ()
 
 
 
-foreign import ccall "vorbis_version_string"
+foreign import CALLCV "vorbis/codec.h vorbis_version_string"
   vorbis_version_string
     :: IO (Ptr #type char)

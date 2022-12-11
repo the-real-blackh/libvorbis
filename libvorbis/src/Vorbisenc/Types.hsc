@@ -15,7 +15,7 @@ import           Foreign.Storable.Offset
 
 #include "vorbis/vorbisenc.h"
 
-data OvectlRatemanageArg =
+data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage_arg" #-} OvectlRatemanageArg =
        OvectlRatemanageArg
          { management_active        :: #type int
          , bitrate_hard_min         :: #type long
@@ -63,7 +63,7 @@ instance Storable OvectlRatemanageArg where
 
 
 
-data OvectlRatemanage2Arg =
+data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage2_arg" #-} OvectlRatemanage2Arg =
        OvectlRatemanage2Arg
          { management_active            :: #type int
          , bitrate_limit_min_kbps       :: #type long

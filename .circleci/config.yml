@@ -30,16 +30,13 @@ jobs:
           command: cabal new-update
       - run:
           name: Build
-          command: cabal new-build all --enable-tests
+          command: cabal new-build all
       - save_cache:
           name: Cache
           key: arm64-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "/root/.cabal"
             - "dist-newstyle"
-      - run:
-          name: Test
-          command: cabal new-test all
 
   build-linux:
     machine:
@@ -65,16 +62,13 @@ jobs:
           command: cabal new-update
       - run:
           name: Build
-          command: cabal new-build all --enable-tests --enable-documentation
+          command: cabal new-build all --enable-documentation
       - save_cache:
           name: Cache
           key: linux-<< parameters.version >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "/root/.cabal"
             - "dist-newstyle"
-      - run:
-          name: Test
-          command: cabal new-test all --enable-documentation --test-show-details=streaming
 
   build-macos:
     macos:
@@ -98,16 +92,13 @@ jobs:
           command: |
             stack init --resolver << parameters.resolver >> --omit-packages
             echo -e 'resolver: << parameters.resolver >>\n\nextra-deps:\n- storable-offset-0.1.0.0\n\npackages:\n- libogg\n- libvorbis' > stack.yaml
-            stack test --no-terminal --no-run-tests
+            stack build --no-terminal
       - save_cache:
           name: Cache
           key: macos-<< parameters.resolver >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "$HOME/.stack"
             - ".stack-work"
-      - run:
-          name: Test
-          command: stack test
 
   build-windows:
     executor: win/default
@@ -138,17 +129,13 @@ jobs:
           command: |
             stack init --resolver << parameters.resolver >> --omit-packages
             echo -e 'resolver: << parameters.resolver >>\n\nextra-deps:\n- storable-offset-0.1.0.0\n\npackages:\n- libogg\n- libvorbis' > stack.yaml
-            stack test --no-run-tests --no-terminal
+            stack build --no-terminal
       - save_cache:
           name: Cache
           key: windows-<< parameters.resolver >>-{{ checksum "libogg/libogg.cabal" }}-{{ checksum "libvorbis/libvorbis.cabal" }}
           paths:
             - "$APPDATA/stack"
             - ".stack-work"
-      - run:
-          name: Test
-          shell: bash.exe
-          command: stack test
 
 
 

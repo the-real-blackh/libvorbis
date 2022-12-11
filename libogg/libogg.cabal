@@ -7,7 +7,7 @@ description:         Raw Haskell bindings to
                      [libogg](https://xiph.org/ogg/doc/libogg/index.html).
                      Check the README for information on how these
                      bindings operate.
-homepage:            https://github.com/burningwitness/libogg
+homepage:            https://github.com/the-real-blackh/libvorbis
 license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Oleksii Divak
@@ -19,21 +19,17 @@ extra-source-files:  libogg/include/ogg/*.h
 
 source-repository head
   type:     git
-  location: https://github.com/burningwitness/libogg
+  location: https://github.com/the-real-blackh/libvorbis
 
-common includes
-  install-includes:    ogg/ogg.h
-                       ogg/os_types.h
+flag ccall
+  description: Use the ccall call convention.
+  default: False
 
-  include-dirs:        libogg/include
-                       libogg/src
-  
-  c-sources:           libogg/src/bitwise.c
-                       libogg/src/framing.c
- 
+flag stdcall
+  description: Use the stdcall call convention (takes precedence over the ccall flag).
+  default: False
+
 library
-  import:              includes
-
   exposed-modules:     Libogg
 
   reexported-modules:  storable-offset:Foreign.Storable.Offset
@@ -51,29 +47,20 @@ library
 
   ghc-options:         -Wall
 
-  default-language:    Haskell98
+  install-includes:    ogg/ogg.h
+                       ogg/os_types.h
 
-test-suite static
-  import:              includes
-
-  type:                exitcode-stdio-1.0
+  include-dirs:        libogg/include
+                       libogg/src
   
-  main-is:             Main.hs
-  
-  hs-source-dirs:      src
-                       test/static
-  
-  build-depends:       base            >= 4.10 && < 5
-                     , storable-offset >= 0.1  && < 0.2
+  c-sources:           libogg/src/bitwise.c
+                       libogg/src/framing.c
 
-  other-modules:       Bind
-
-                       Libogg
-
-                       Libogg.Bitpacking
-                       Libogg.Decoding
-                       Libogg.Encoding
-                       Libogg.General
-                       Libogg.Types
+  if flag(stdcall)
+    cpp-options: -DCALLCV=stdcall
+  elif flag(ccall)
+    cpp-options: -DCALLCV=ccall
+  else
+    cpp-options: -DCALLCV=capi
 
   default-language:    Haskell98

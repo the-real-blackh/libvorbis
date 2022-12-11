@@ -1,4 +1,6 @@
-{-# LANGUAGE PatternSynonyms #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , PatternSynonyms #-}
 
 module Libvorbis.Return where
 

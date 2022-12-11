@@ -1,4 +1,4 @@
-#include "vorbis/vorbisfile.h"
+#include "extra/vorbisfile.h"
 
 void ov_callbacks_default_ptr (ov_callbacks *callbacks)
   {
@@ -20,7 +20,7 @@ void ov_callbacks_streamonly_noclose_ptr (ov_callbacks *callbacks)
     *callbacks = OV_CALLBACKS_STREAMONLY_NOCLOSE;
   }
 
-int ov_open_callbacks_plus
+int ov_open_callbacks_ptr
       ( void *f
       , OggVorbis_File *vf
       , const char *initial
@@ -31,7 +31,7 @@ int ov_open_callbacks_plus
     return ov_open_callbacks (f, vf, initial, ibytes, *callbacks);
   }
 
-int ov_test_callbacks_plus
+int ov_test_callbacks_ptr
       ( void *f
       , OggVorbis_File *vf
       , const char *initial

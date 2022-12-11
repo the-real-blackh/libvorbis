@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Vorbisfile.Setup where
 
@@ -9,8 +11,9 @@ import           Data.Word
 import           Foreign.Ptr
 
 #include "vorbis/vorbisfile.h"
+#include "extra/vorbisfile.h"
 
-foreign import ccall "ov_fopen"
+foreign import CALLCV "vorbis/vorbisfile.h ov_fopen"
   ov_fopen
     :: Ptr #{type char}  -- ^ path
     -> Ptr OggVorbisFile -- ^ vf
@@ -18,7 +21,7 @@ foreign import ccall "ov_fopen"
 
 
 
-foreign import ccall "ov_open"
+foreign import CALLCV "vorbis/vorbisfile.h ov_open"
   ov_open
     :: Ptr ()            -- ^ f
     -> Ptr OggVorbisFile -- ^ vf
@@ -28,7 +31,7 @@ foreign import ccall "ov_open"
 
 
 
-foreign import ccall "ov_open_callbacks_plus"
+foreign import CALLCV "extra/vorbisfile.h ov_open_callbacks_ptr"
   ov_open_callbacks
     :: Ptr ()            -- ^ datasource
     -> Ptr OggVorbisFile -- ^ vf
@@ -39,14 +42,14 @@ foreign import ccall "ov_open_callbacks_plus"
 
 
 
-foreign import ccall "ov_clear"
+foreign import CALLCV "vorbis/vorbisfile.h ov_clear"
   ov_clear
     :: Ptr OggVorbisFile -- ^ vf
     -> IO #type int
 
 
 
-foreign import ccall "ov_test"
+foreign import CALLCV "vorbis/vorbisfile.h ov_test"
   ov_test
     :: Ptr ()            -- ^ f
     -> Ptr OggVorbisFile -- ^ vf
@@ -56,7 +59,7 @@ foreign import ccall "ov_test"
 
 
 
-foreign import ccall "ov_test_callbacks_plus"
+foreign import CALLCV "extra/vorbisfile.h ov_test_callbacks_ptr"
   ov_test_callbacks
     :: Ptr ()            -- ^ datasource
     -> Ptr OggVorbisFile -- ^ vf
@@ -67,7 +70,7 @@ foreign import ccall "ov_test_callbacks_plus"
 
 
 
-foreign import ccall "ov_test_open"
+foreign import CALLCV "vorbis/vorbisfile.h ov_test_open"
   ov_test_open
     :: Ptr OggVorbisFile -- ^ vf
     -> IO #type int

@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface
            , PatternSynonyms #-}
 
 module Vorbisenc
@@ -79,7 +81,7 @@ pattern OV_ECTL_RATEMANAGE_HARD = #const OV_ECTL_RATEMANAGE_HARD
 
 
 
-foreign import ccall unsafe "vorbis_encode_ctl"
+foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_ctl"
   vorbis_encode_ctl
     :: Ptr VorbisInfo -- ^ vi
     -> #{type int}    -- ^ request
@@ -88,7 +90,7 @@ foreign import ccall unsafe "vorbis_encode_ctl"
 
 
 
-foreign import ccall unsafe "vorbis_encode_init"
+foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_init"
   vorbis_encode_init
     :: Ptr VorbisInfo -- ^ vi
     -> #{type long}   -- ^ channels
@@ -100,7 +102,7 @@ foreign import ccall unsafe "vorbis_encode_init"
 
 
 
-foreign import ccall unsafe "vorbis_encode_init_vbr"
+foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_init_vbr"
   vorbis_encode_init_vbr
     :: Ptr VorbisInfo -- ^ vi
     -> #{type long}   -- ^ channels
@@ -110,14 +112,14 @@ foreign import ccall unsafe "vorbis_encode_init_vbr"
 
 
 
-foreign import ccall unsafe "vorbis_encode_setup_init"
+foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_init"
   vorbis_encode_setup_init
     :: Ptr VorbisInfo -- ^ vi
     -> IO #{type int}
 
 
 
-foreign import ccall unsafe "vorbis_encode_setup_managed"
+foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_managed"
   vorbis_encode_setup_managed
     :: Ptr VorbisInfo -- ^ vi
     -> #{type long}   -- ^ channels
@@ -129,7 +131,7 @@ foreign import ccall unsafe "vorbis_encode_setup_managed"
 
 
 
-foreign import ccall unsafe "vorbis_encode_setup_vbr"
+foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_vbr"
   vorbis_encode_setup_vbr
     :: Ptr VorbisInfo -- ^ vi
     -> #{type long}   -- ^ channels

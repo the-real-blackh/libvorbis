@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Vorbisfile.Seeking where
 
@@ -10,7 +12,7 @@ import           Foreign.Ptr
 
 #include "vorbis/vorbisfile.h"
 
-foreign import ccall "ov_raw_seek"
+foreign import CALLCV "vorbis/vorbisfile.h ov_raw_seek"
   ov_raw_seek
     :: Ptr OggVorbisFile -- ^ vf
     -> #{type long}      -- ^ pos
@@ -18,7 +20,7 @@ foreign import ccall "ov_raw_seek"
 
 
 
-foreign import ccall "ov_pcm_seek"
+foreign import CALLCV "vorbis/vorbisfile.h ov_pcm_seek"
   ov_pcm_seek
     :: Ptr OggVorbisFile -- ^ vf
     -> Ogg_Int64_t       -- ^ pos
@@ -26,7 +28,7 @@ foreign import ccall "ov_pcm_seek"
 
 
 
-foreign import ccall "ov_time_seek"
+foreign import CALLCV "vorbis/vorbisfile.h ov_time_seek"
   ov_time_seek
     :: Ptr OggVorbisFile -- ^ vf
     -> #{type double}    -- ^ s
@@ -34,7 +36,7 @@ foreign import ccall "ov_time_seek"
 
 
 
-foreign import ccall "ov_pcm_seek_page"
+foreign import CALLCV "vorbis/vorbisfile.h ov_pcm_seek_page"
   ov_pcm_seek_page
     :: Ptr OggVorbisFile -- ^ vf
     -> Ogg_Int64_t       -- ^ pos
@@ -42,7 +44,7 @@ foreign import ccall "ov_pcm_seek_page"
 
 
 
-foreign import ccall "ov_time_seek_page"
+foreign import CALLCV "vorbis/vorbisfile.h ov_time_seek_page"
   ov_time_seek_page
     :: Ptr OggVorbisFile -- ^ vf
     -> #{type double}    -- ^ s
@@ -50,7 +52,7 @@ foreign import ccall "ov_time_seek_page"
 
 
 
-foreign import ccall "ov_raw_seek_lap"
+foreign import CALLCV "vorbis/vorbisfile.h ov_raw_seek_lap"
   ov_raw_seek_lap
     :: Ptr OggVorbisFile -- ^ vf
     -> #{type long}      -- ^ pos
@@ -58,7 +60,7 @@ foreign import ccall "ov_raw_seek_lap"
 
 
 
-foreign import ccall "ov_pcm_seek_lap"
+foreign import CALLCV "vorbis/vorbisfile.h ov_pcm_seek_lap"
   ov_pcm_seek_lap
     :: Ptr OggVorbisFile -- ^ vf
     -> Ogg_Int64_t       -- ^ pos
@@ -66,7 +68,7 @@ foreign import ccall "ov_pcm_seek_lap"
 
 
 
-foreign import ccall "ov_time_seek_lap"
+foreign import CALLCV "vorbis/vorbisfile.h ov_time_seek_lap"
   ov_time_seek_lap
     :: Ptr OggVorbisFile -- ^ vf
     -> #{type double}    -- ^ s
@@ -74,7 +76,7 @@ foreign import ccall "ov_time_seek_lap"
 
 
 
-foreign import ccall "ov_pcm_seek_page_lap"
+foreign import CALLCV "vorbis/vorbisfile.h ov_pcm_seek_page_lap"
   ov_pcm_seek_page_lap
     :: Ptr OggVorbisFile -- ^ vf
     -> Ogg_Int64_t       -- ^ pos
@@ -82,7 +84,7 @@ foreign import ccall "ov_pcm_seek_page_lap"
 
 
 
-foreign import ccall "ov_time_seek_page_lap"
+foreign import CALLCV "vorbis/vorbisfile.h ov_time_seek_page_lap"
   ov_time_seek_page_lap
     :: Ptr OggVorbisFile -- ^ vf
     -> #{type double}    -- ^ s

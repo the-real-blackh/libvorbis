@@ -23,7 +23,7 @@ type Ogg_Int64_t = #type ogg_int64_t
 
 
 
-data OggpackBuffer =
+data {-# CTYPE "ogg/ogg.h" "oggpack_buffer" #-} OggpackBuffer =
        OggpackBuffer
          { endbyte :: #type long
          , endbit  :: #type int
@@ -60,7 +60,7 @@ instance Storable OggpackBuffer where
 
 
 
-data OggPage =
+data {-# CTYPE "ogg/ogg.h" "ogg_page" #-} OggPage =
        OggPage
          { header     :: Ptr #type unsigned char
          , header_len :: #type long
@@ -93,7 +93,7 @@ instance Storable OggPage where
 
 
 
-data OggStreamState =
+data{-# CTYPE "ogg/ogg.h" "ogg_stream_state" #-} OggStreamState =
        OggStreamState
          { body_data       :: Ptr #type unsigned char
          , body_storage    :: #type long
@@ -182,7 +182,7 @@ instance Storable OggStreamState where
 
 
 
-data OggPacket =
+data {-# CTYPE "ogg/ogg.h" "ogg_packet" #-} OggPacket =
        OggPacket
          { packet     :: Ptr #type unsigned char
          , bytes      :: #type long
@@ -223,7 +223,7 @@ instance Storable OggPacket where
 
 
 
-data OggSyncState =
+data {-# CTYPE "ogg/ogg.h" "ogg_sync_state" #-} OggSyncState =
        OggSyncState
          { data_       :: Ptr #type unsigned char
          , storage     :: #type int

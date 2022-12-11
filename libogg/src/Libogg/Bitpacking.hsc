@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Libogg.Bitpacking where
 
@@ -10,28 +12,28 @@ import           Foreign.Ptr
 
 #include "ogg/ogg.h"
 
-foreign import ccall "oggpack_writeinit"
+foreign import CALLCV "ogg/ogg.h oggpack_writeinit"
   oggpack_writeinit
     :: Ptr OggpackBuffer -- ^ b
     -> IO ()
 
 
 
-foreign import ccall "oggpack_writecheck"
+foreign import CALLCV "ogg/ogg.h oggpack_writecheck"
   oggpack_writecheck
     :: Ptr OggpackBuffer -- ^ b
     -> IO #type int
 
 
 
-foreign import ccall "oggpack_reset"
+foreign import CALLCV "ogg/ogg.h oggpack_reset"
   oggpack_reset
     :: Ptr OggpackBuffer -- ^ b
     -> IO ()
 
 
 
-foreign import ccall "oggpack_writetrunc"
+foreign import CALLCV "ogg/ogg.h oggpack_writetrunc"
   oggpack_writetrunc
     :: Ptr OggpackBuffer -- ^ b
     -> #{type long}      -- ^ bits
@@ -39,14 +41,14 @@ foreign import ccall "oggpack_writetrunc"
 
 
 
-foreign import ccall "oggpack_writealign"
+foreign import CALLCV "ogg/ogg.h oggpack_writealign"
   oggpack_writealign
     :: Ptr OggpackBuffer -- ^ b
     -> IO ()
 
 
 
-foreign import ccall "oggpack_writecopy"
+foreign import CALLCV "ogg/ogg.h oggpack_writecopy"
   oggpack_writecopy
     :: Ptr OggpackBuffer -- ^ b
     -> Ptr ()            -- ^ source
@@ -55,14 +57,14 @@ foreign import ccall "oggpack_writecopy"
 
 
 
-foreign import ccall "oggpack_writeclear"
+foreign import CALLCV "ogg/ogg.h oggpack_writeclear"
   oggpack_writeclear
     :: Ptr OggpackBuffer -- ^ b
     -> IO ()
 
 
 
-foreign import ccall "oggpack_readinit"
+foreign import CALLCV "ogg/ogg.h oggpack_readinit"
   oggpack_readinit
     :: Ptr OggpackBuffer         -- ^ b
     -> Ptr #{type unsigned char} -- ^ buf
@@ -71,7 +73,7 @@ foreign import ccall "oggpack_readinit"
 
 
 
-foreign import ccall "oggpack_write"
+foreign import CALLCV "ogg/ogg.h oggpack_write"
   oggpack_write
     :: Ptr OggpackBuffer     -- ^ b
     -> #{type unsigned long} -- ^ value
@@ -80,7 +82,7 @@ foreign import ccall "oggpack_write"
 
 
 
-foreign import ccall "oggpack_look"
+foreign import CALLCV "ogg/ogg.h oggpack_look"
   oggpack_look
     :: Ptr OggpackBuffer -- ^ b
     -> #{type int}       -- ^ bits
@@ -88,14 +90,14 @@ foreign import ccall "oggpack_look"
 
 
 
-foreign import ccall "oggpack_look1"
+foreign import CALLCV "ogg/ogg.h oggpack_look1"
   oggpack_look1
     :: Ptr OggpackBuffer -- ^ b
     -> IO #type long
 
 
 
-foreign import ccall "oggpack_adv"
+foreign import CALLCV "ogg/ogg.h oggpack_adv"
   oggpack_adv
     :: Ptr OggpackBuffer -- ^ b
     -> #{type int}       -- ^ bits
@@ -103,14 +105,14 @@ foreign import ccall "oggpack_adv"
 
 
 
-foreign import ccall "oggpack_adv1"
+foreign import CALLCV "ogg/ogg.h oggpack_adv1"
   oggpack_adv1
     :: Ptr OggpackBuffer -- ^ b
     -> IO ()
 
 
 
-foreign import ccall "oggpack_read"
+foreign import CALLCV "ogg/ogg.h oggpack_read"
   oggpack_read
     :: Ptr OggpackBuffer -- ^ b
     -> #{type int}       -- ^ bits
@@ -118,28 +120,28 @@ foreign import ccall "oggpack_read"
 
 
 
-foreign import ccall "oggpack_read1"
+foreign import CALLCV "ogg/ogg.h oggpack_read1"
   oggpack_read1
     :: Ptr OggpackBuffer -- ^ b
     -> IO #type long
 
 
 
-foreign import ccall "oggpack_bytes"
+foreign import CALLCV "ogg/ogg.h oggpack_bytes"
   oggpack_bytes
     :: Ptr OggpackBuffer -- ^ b
     -> IO #type long
 
 
 
-foreign import ccall "oggpack_bits"
+foreign import CALLCV "ogg/ogg.h oggpack_bits"
   oggpack_bits
     :: Ptr OggpackBuffer -- ^ b
     -> IO #type long
 
 
 
-foreign import ccall "oggpack_get_buffer"
+foreign import CALLCV "ogg/ogg.h oggpack_get_buffer"
   oggpack_get_buffer
     :: Ptr OggpackBuffer              -- ^ b
     -> IO (Ptr #{type unsigned char})

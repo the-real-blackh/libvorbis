@@ -18,7 +18,7 @@ import           Foreign.Storable.Offset
 
 #include "vorbis/codec.h"
 
-data VorbisBlock = VorbisBlock
+data {-# CTYPE "vorbis/codec.h" "vorbis_block" #-} VorbisBlock = VorbisBlock
 
 instance Storable VorbisBlock where
   sizeOf    _ = #size      struct vorbis_block
@@ -30,7 +30,7 @@ instance Storable VorbisBlock where
 
 
 
-data VorbisComment =
+data {-# CTYPE "vorbis/codec.h" "vorbis_comment" #-} VorbisComment =
        VorbisComment
          { user_comments   :: Ptr (Ptr #{type char})
          , comment_lengths :: Ptr #type int
@@ -62,7 +62,7 @@ instance Storable VorbisComment where
 
 
 
-data VorbisDspState = VorbisDspState
+data {-# CTYPE "vorbis/codec.h" "vorbis_dsp_state" #-} VorbisDspState = VorbisDspState
 
 instance Storable VorbisDspState where
   sizeOf    _ = #size      struct vorbis_dsp_state
@@ -74,7 +74,7 @@ instance Storable VorbisDspState where
 
 
 
-data VorbisInfo =
+data {-# CTYPE "vorbis/codec.h" "vorbis_info" #-} VorbisInfo =
        VorbisInfo
          { version         :: #type int
          , channels        :: #type int

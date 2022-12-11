@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Vorbisfile.Decoding where
 
@@ -10,7 +12,7 @@ import           Foreign.Ptr
 
 #include "vorbis/vorbisfile.h"
 
-foreign import ccall "ov_read"
+foreign import CALLCV "vorbis/vorbisfile.h ov_read"
   ov_read
     :: Ptr OggVorbisFile -- ^ vf
     -> Ptr #{type char}  -- ^ buffer
@@ -23,7 +25,7 @@ foreign import ccall "ov_read"
 
 
 
-foreign import ccall "ov_read_float"
+foreign import CALLCV "vorbis/vorbisfile.h ov_read_float"
   ov_read_float
     :: Ptr OggVorbisFile             -- ^ vf
     -> Ptr (Ptr (Ptr #{type float})) -- ^ pcm_channels
@@ -40,7 +42,7 @@ type FilterFunc = Ptr (Ptr #{type float}) -- ^ pcm
                -> Ptr ()                  -- ^ filter_param
                -> IO (Ptr ())
 
-foreign import ccall "ov_read_filter"
+foreign import CALLCV "vorbis/vorbisfile.h ov_read_filter"
   ov_read_filter
     :: Ptr OggVorbisFile -- ^ vf
     -> Ptr #{type char}  -- ^ buffer
@@ -56,7 +58,7 @@ foreign import ccall "ov_read_filter"
 
 
 
-foreign import ccall "ov_crosslap"
+foreign import CALLCV "vorbis/vorbisfile.h ov_crosslap"
  ov_crosslap
    :: Ptr OggVorbisFile -- ^ old
    -> Ptr OggVorbisFile -- ^ new

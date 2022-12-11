@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Libogg.Encoding where
 
@@ -9,7 +11,7 @@ import           Foreign.Ptr
 
 #include "ogg/ogg.h"
 
-foreign import ccall "ogg_stream_packetin"
+foreign import CALLCV "ogg/ogg.h ogg_stream_packetin"
   ogg_stream_packetin
     :: Ptr OggStreamState -- ^ os
     -> Ptr OggPacket      -- ^ cp
@@ -17,34 +19,34 @@ foreign import ccall "ogg_stream_packetin"
 
 
 
-foreign import ccall "ogg_stream_pageout"
+foreign import CALLCV "ogg/ogg.h ogg_stream_pageout"
   ogg_stream_pageout
     :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ og
+    -> Ptr OggPage        -- ^ og
     -> IO #type int
 
 
 
-foreign import ccall "ogg_stream_pageout_fill"
+foreign import CALLCV "ogg/ogg.h ogg_stream_pageout_fill"
   ogg_stream_pageout_fill
     :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ og
+    -> Ptr OggPage        -- ^ og
     -> #{type int}        -- ^ fillbytes
     -> IO #type int
 
 
 
-foreign import ccall "ogg_stream_flush"
+foreign import CALLCV "ogg/ogg.h ogg_stream_flush"
   ogg_stream_flush
     :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ og
+    -> Ptr OggPage        -- ^ og
     -> IO #type int
 
 
 
-foreign import ccall "ogg_stream_flush_fill"
+foreign import CALLCV "ogg/ogg.h ogg_stream_flush_fill"
   ogg_stream_flush_fill
     :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ og
+    -> Ptr OggPage        -- ^ og
     -> #{type int}        -- ^ fillbytes
     -> IO #type int

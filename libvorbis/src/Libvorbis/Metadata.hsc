@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Libvorbis.Metadata where
 
@@ -11,7 +13,7 @@ import           Foreign.Ptr
 
 #include "vorbis/codec.h"
 
-foreign import ccall "vorbis_comment_add"
+foreign import CALLCV "vorbis/codec.h vorbis_comment_add"
   vorbis_comment_add
     :: Ptr VorbisComment -- ^ vc
     -> Ptr #{type char}  -- ^ comment
@@ -19,7 +21,7 @@ foreign import ccall "vorbis_comment_add"
 
 
 
-foreign import ccall "vorbis_comment_add_tag"
+foreign import CALLCV "vorbis/codec.h vorbis_comment_add_tag"
   vorbis_comment_add_tag
     :: Ptr VorbisComment -- ^ vc
     -> Ptr #{type char}  -- ^ tag
@@ -28,21 +30,21 @@ foreign import ccall "vorbis_comment_add_tag"
 
 
 
-foreign import ccall "vorbis_comment_clear"
+foreign import CALLCV "vorbis/codec.h vorbis_comment_clear"
   vorbis_comment_clear
     :: Ptr VorbisComment -- ^ vc
     -> IO ()
 
 
 
-foreign import ccall "vorbis_comment_init"
+foreign import CALLCV "vorbis/codec.h vorbis_comment_init"
   vorbis_comment_init
     :: Ptr VorbisComment -- ^ vc
     -> IO ()
 
 
 
-foreign import ccall "vorbis_comment_query"
+foreign import CALLCV "vorbis/codec.h vorbis_comment_query"
   vorbis_comment_query
     :: Ptr VorbisComment     -- ^ vc
     -> Ptr #{type char}      -- ^ tag
@@ -51,7 +53,7 @@ foreign import ccall "vorbis_comment_query"
 
 
 
-foreign import ccall "vorbis_comment_query_count"
+foreign import CALLCV "vorbis/codec.h vorbis_comment_query_count"
   vorbis_comment_query_count
     :: Ptr VorbisComment -- ^ vc
     -> Ptr #{type char}  -- ^ tag
@@ -60,7 +62,7 @@ foreign import ccall "vorbis_comment_query_count"
 
 
 
-foreign import ccall "vorbis_commentheader_out"
+foreign import CALLCV "vorbis/codec.h vorbis_commentheader_out"
   vorbis_commentheader_out
     :: Ptr VorbisComment -- ^ vc
     -> Ptr OggPacket     -- ^ op

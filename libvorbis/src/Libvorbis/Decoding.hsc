@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Libvorbis.Decoding where
 
@@ -10,7 +12,7 @@ import           Foreign.Ptr
 
 #include "vorbis/codec.h"
 
-foreign import ccall unsafe "vorbis_packet_blocksize"
+foreign import CALLCV "vorbis/codec.h vorbis_packet_blocksize"
   vorbis_packet_blocksize
     :: Ptr VorbisInfo -- ^ vi
     -> Ptr OggPacket  -- ^ op
@@ -18,15 +20,15 @@ foreign import ccall unsafe "vorbis_packet_blocksize"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis"
   vorbis_synthesis
-    :: Ptr VorbisInfo -- ^ vb
-    -> Ptr OggPacket  -- ^ op
+    :: Ptr VorbisBlock -- ^ vb
+    -> Ptr OggPacket   -- ^ op
     -> IO #type int
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_blockin"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_blockin"
   vorbis_synthesis_blockin
     :: Ptr VorbisDspState -- ^ v
     -> Ptr VorbisBlock    -- ^ vb
@@ -34,7 +36,7 @@ foreign import ccall unsafe "vorbis_synthesis_blockin"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_halfrate"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_halfrate"
   vorbis_synthesis_halfrate
     :: Ptr VorbisInfo -- ^ v
     -> #{type int}    -- ^ flag
@@ -42,14 +44,14 @@ foreign import ccall unsafe "vorbis_synthesis_halfrate"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_halfrate_p"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_halfrate_p"
   vorbis_synthesis_halfrate_p
     :: Ptr VorbisInfo -- ^ v
     -> IO #type int
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_headerin"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_headerin"
   vorbis_synthesis_headerin
     :: Ptr VorbisInfo    -- ^ vi
     -> Ptr VorbisComment -- ^ vc
@@ -58,14 +60,14 @@ foreign import ccall unsafe "vorbis_synthesis_headerin"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_idheader"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_idheader"
   vorbis_synthesis_idheader
     :: Ptr OggPacket -- ^ op
     -> IO #type int
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_init"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_init"
   vorbis_synthesis_init
     :: Ptr VorbisDspState -- ^ v
     -> Ptr VorbisInfo     -- ^ vi
@@ -73,7 +75,7 @@ foreign import ccall unsafe "vorbis_synthesis_init"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_lapout"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_lapout"
   vorbis_synthesis_lapout
     :: Ptr VorbisDspState            -- ^ v
     -> Ptr (Ptr (Ptr #{type float})) -- ^ pcm
@@ -81,7 +83,7 @@ foreign import ccall unsafe "vorbis_synthesis_lapout"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_pcmout"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_pcmout"
   vorbis_synthesis_pcmout
     :: Ptr VorbisDspState            -- ^ v
     -> Ptr (Ptr (Ptr #{type float})) -- ^ pcm
@@ -89,7 +91,7 @@ foreign import ccall unsafe "vorbis_synthesis_pcmout"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_read"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_read"
   vorbis_synthesis_read
     :: Ptr VorbisDspState -- ^ v
     -> #{type int}        -- ^ samples
@@ -97,14 +99,14 @@ foreign import ccall unsafe "vorbis_synthesis_read"
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_restart"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_restart"
   vorbis_synthesis_restart
     :: Ptr VorbisDspState -- ^ v
     -> IO #type int
 
 
 
-foreign import ccall unsafe "vorbis_synthesis_trackonly"
+foreign import CALLCV "vorbis/codec.h vorbis_synthesis_trackonly"
   vorbis_synthesis_trackonly
     :: Ptr VorbisBlock -- ^ vb
     -> Ptr OggPacket   -- ^ op

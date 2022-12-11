@@ -1,4 +1,6 @@
-{-# LANGUAGE DataKinds
+{-# LANGUAGE CApiFFI
+           , CPP
+           , DataKinds
            , DuplicateRecordFields
            , FlexibleInstances
            , ForeignFunctionInterface
@@ -22,9 +24,9 @@ import           Foreign.Storable.Offset
 
 #include <stdio.h>
 #include "vorbis/vorbisfile.h"
-#include "vorbis/vorbisfile-plus.h"
+#include "extra/vorbisfile.h"
 
-data OggVorbisFile =
+data {-# CTYPE "vorbis/vorbisfile.h" "OggVorbis_File" #-} OggVorbisFile =
        OggVorbisFile
          { datasource       :: Ptr ()
          , seekable         :: #type int
@@ -145,7 +147,7 @@ type CloseFunc = Ptr ()
 type TellFunc = Ptr ()
              -> IO #{type long}
 
-data OvCallbacks =
+data {-# CTYPE "vorbis/vorbisfile.h" "ov_callbacks" #-} OvCallbacks =
        OvCallbacks
          { read_func  :: FunPtr ReadFunc
          , seek_func  :: FunPtr SeekFunc
@@ -177,14 +179,14 @@ instance Storable OvCallbacks where
 
 
 
-foreign import ccall unsafe "ov_callbacks_default_ptr"
+foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_default_ptr"
   poke_OV_CALLBACKS_DEFAULT :: Ptr OvCallbacks -> IO ()
 
-foreign import ccall unsafe "ov_callbacks_noclose_ptr"
+foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_noclose_ptr"
   poke_OV_CALLBACKS_NOCLOSE :: Ptr OvCallbacks -> IO ()
 
-foreign import ccall unsafe "ov_callbacks_streamonly_ptr"
+foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_streamonly_ptr"
   poke_OV_CALLBACKS_STREAMONLY :: Ptr OvCallbacks -> IO ()
 
-foreign import ccall unsafe "ov_callbacks_streamonly_noclose_ptr"
+foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_streamonly_noclose_ptr"
   poke_OV_CALLBACKS_STREAMONLY_NOCLOSE :: Ptr OvCallbacks -> IO ()

@@ -1,4 +1,6 @@
-{-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE CApiFFI
+           , CPP
+           , ForeignFunctionInterface #-}
 
 module Libvorbis.Encoding where
 
@@ -10,7 +12,7 @@ import           Foreign.Ptr
 
 #include "vorbis/codec.h"
 
-foreign import ccall "vorbis_analysis"
+foreign import CALLCV "vorbis/codec.h vorbis_analysis"
   vorbis_analysis
     :: Ptr VorbisBlock -- ^ vb
     -> Ptr OggPacket   -- ^ op
@@ -18,7 +20,7 @@ foreign import ccall "vorbis_analysis"
 
 
 
-foreign import ccall "vorbis_analysis_blockout"
+foreign import CALLCV "vorbis/codec.h vorbis_analysis_blockout"
   vorbis_analysis_blockout
     :: Ptr VorbisDspState -- ^ v
     -> Ptr VorbisBlock    -- ^ vb
@@ -26,7 +28,7 @@ foreign import ccall "vorbis_analysis_blockout"
 
 
 
-foreign import ccall "vorbis_analysis_buffer"
+foreign import CALLCV "vorbis/codec.h vorbis_analysis_buffer"
   vorbis_analysis_buffer
     :: Ptr VorbisDspState           -- ^ v
     -> #{type int}                  -- ^ vals
@@ -34,7 +36,7 @@ foreign import ccall "vorbis_analysis_buffer"
 
 
 
-foreign import ccall "vorbis_analysis_headerout"
+foreign import CALLCV "vorbis/codec.h vorbis_analysis_headerout"
   vorbis_analysis_headerout
     :: Ptr VorbisDspState -- ^ v
     -> Ptr VorbisComment  -- ^ vc
@@ -45,7 +47,7 @@ foreign import ccall "vorbis_analysis_headerout"
 
 
 
-foreign import ccall "vorbis_analysis_init"
+foreign import CALLCV "vorbis/codec.h vorbis_analysis_init"
   vorbis_analysis_init
     :: Ptr VorbisDspState -- ^ v
     -> Ptr VorbisInfo     -- ^ vi
@@ -53,7 +55,7 @@ foreign import ccall "vorbis_analysis_init"
 
 
 
-foreign import ccall "vorbis_analysis_wrote"
+foreign import CALLCV "vorbis/codec.h vorbis_analysis_wrote"
   vorbis_analysis_wrote
     :: Ptr VorbisDspState -- ^ v
     -> #{type int}        -- ^ vals
@@ -61,15 +63,15 @@ foreign import ccall "vorbis_analysis_wrote"
 
 
 
-foreign import ccall "vorbis_bitrate_addblock"
+foreign import CALLCV "vorbis/codec.h vorbis_bitrate_addblock"
   vorbis_bitrate_addblock
     :: Ptr VorbisBlock -- ^ vb
     -> IO #type int
 
 
 
-foreign import ccall "vorbis_bitrate_flushpacket"
+foreign import CALLCV "vorbis/codec.h vorbis_bitrate_flushpacket"
   vorbis_bitrate_flushpacket
-    :: Ptr VorbisBlock -- ^ vd
-    -> Ptr OggPacket   -- ^ op
+    :: Ptr VorbisDspState -- ^ vd
+    -> Ptr OggPacket      -- ^ op
     -> IO #type int

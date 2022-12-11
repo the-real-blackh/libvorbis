@@ -20,51 +20,22 @@ extra-source-files:  libvorbis/include/vorbis/*.h
                      libvorbis/lib/books/floor/*.h
                      libvorbis/lib/books/uncoupled/*.h
                      libvorbis/lib/modes/*.h
-                     libvorbis-plus/include/vorbis/*.h
+
+                     cbits/include/extra/*.h
 
 source-repository head
   type:     git
   location: https://github.com/the-real-blackh/libvorbis
 
-common includes
-  include-dirs:        libvorbis/include
-                       libvorbis/lib
-                       libvorbis/lib/books/coupled
-                       libvorbis/lib/books/floor
-                       libvorbis/lib/books/uncoupled
-                       libvorbis/lib/modes
-                       libvorbis-plus/include
+flag ccall
+  description: Use the ccall call convention.
+  default: False
 
-  c-sources:           libvorbis/lib/analysis.c
-                    -- libvorbis/lib/barkmel.c
-                       libvorbis/lib/bitrate.c
-                       libvorbis/lib/block.c
-                       libvorbis/lib/codebook.c
-                       libvorbis/lib/envelope.c
-                       libvorbis/lib/floor0.c
-                       libvorbis/lib/floor1.c
-                       libvorbis/lib/info.c
-                       libvorbis/lib/lookup.c
-                       libvorbis/lib/lpc.c
-                       libvorbis/lib/lsp.c
-                       libvorbis/lib/mapping0.c
-                       libvorbis/lib/mdct.c
-                       libvorbis/lib/psy.c
-                    -- libvorbis/lib/psytune.c
-                       libvorbis/lib/registry.c
-                       libvorbis/lib/res0.c
-                       libvorbis/lib/sharedbook.c
-                       libvorbis/lib/smallft.c
-                       libvorbis/lib/synthesis.c
-                    -- libvorbis/lib/tone.c
-                       libvorbis/lib/vorbisenc.c
-                       libvorbis/lib/vorbisfile.c
-                       libvorbis/lib/window.c
-                       libvorbis-plus/lib/vorbisfile-plus.c
+flag stdcall
+  description: Use the stdcall call convention (takes precedence over the ccall flag).
+  default: False
 
 library
-  import:              includes
-
   exposed-modules:     Libvorbis
                        Vorbisenc
                        Vorbisfile
@@ -94,41 +65,51 @@ library
 
   ghc-options:         -Wall
 
-  default-language:    Haskell98
+  install-includes:    vorbis/codec.h
+                       vorbis/vorbisenc.h
+                       vorbis/vorbisfile.h
 
-test-suite static
-  import:              includes
+  include-dirs:        libvorbis/include
+                       libvorbis/lib
+                       libvorbis/lib/books/coupled
+                       libvorbis/lib/books/floor
+                       libvorbis/lib/books/uncoupled
+                       libvorbis/lib/modes
+                       cbits/include
 
-  type:                exitcode-stdio-1.0
+  c-sources:           libvorbis/lib/analysis.c
+                    -- libvorbis/lib/barkmel.c
+                       libvorbis/lib/bitrate.c
+                       libvorbis/lib/block.c
+                       libvorbis/lib/codebook.c
+                       libvorbis/lib/envelope.c
+                       libvorbis/lib/floor0.c
+                       libvorbis/lib/floor1.c
+                       libvorbis/lib/info.c
+                       libvorbis/lib/lookup.c
+                       libvorbis/lib/lpc.c
+                       libvorbis/lib/lsp.c
+                       libvorbis/lib/mapping0.c
+                       libvorbis/lib/mdct.c
+                       libvorbis/lib/psy.c
+                    -- libvorbis/lib/psytune.c
+                       libvorbis/lib/registry.c
+                       libvorbis/lib/res0.c
+                       libvorbis/lib/sharedbook.c
+                       libvorbis/lib/smallft.c
+                       libvorbis/lib/synthesis.c
+                    -- libvorbis/lib/tone.c
+                       libvorbis/lib/vorbisenc.c
+                       libvorbis/lib/vorbisfile.c
+                       libvorbis/lib/window.c
 
-  main-is:             Main.hs
+                       cbits/lib/vorbisfile.c
 
-  hs-source-dirs:      src
-                     , test/static
-
-  build-depends:       base            >= 4.10 && < 5
-                     , libogg          >= 0.1  && < 0.2
-                     , storable-offset >= 0.1  && < 0.2
-
-  other-modules:       Bind
-
-                       Libvorbis
-                       Vorbisenc
-                       Vorbisfile
-
-                       Libvorbis.Both
-                       Libvorbis.Decoding
-                       Libvorbis.Encoding
-                       Libvorbis.Metadata
-                       Libvorbis.Return
-                       Libvorbis.Types
-
-                       Vorbisenc.Types
-
-                       Vorbisfile.Decoding
-                       Vorbisfile.File
-                       Vorbisfile.Seeking
-                       Vorbisfile.Setup
-                       Vorbisfile.Types
+  if flag(stdcall)
+    cpp-options: -DCALLCV=stdcall
+  elif flag(ccall)
+    cpp-options: -DCALLCV=ccall
+  else
+    cpp-options: -DCALLCV=capi
 
   default-language:    Haskell98
