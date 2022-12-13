@@ -2,19 +2,19 @@
 
 module Vorbisfile
   ( -- ** Data Structures
-    Ogg_Int64_t
-  , OggVorbisFile (..)
-  , ReadFunc
-  , SeekFunc
-  , CloseFunc
-  , TellFunc
-  , OvCallbacks (..)
+    Ogg_int64_t
+  , OggVorbis_File (..)
+  , Read_func
+  , Seek_func
+  , Close_func
+  , Tell_func
+  , Ov_callbackss (..)
   , poke_OV_CALLBACKS_DEFAULT
   , poke_OV_CALLBACKS_NOCLOSE
   , poke_OV_CALLBACKS_STREAMONLY
   , poke_OV_CALLBACKS_STREAMONLY_NOCLOSE
-  , VorbisComment (..)
-  , VorbisInfo (..)
+  , Vorbis_comment (..)
+  , Vorbis_info (..)
     -- ** Setup/Teardown
   , ov_fopen
   , ov_open
@@ -26,7 +26,7 @@ module Vorbisfile
     -- ** Decoding
   , ov_read
   , ov_read_float
-  , FilterFunc
+  , Filter_func
   , ov_read_filter
   , ov_crosslap
     -- ** Seeking

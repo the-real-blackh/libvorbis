@@ -26,61 +26,61 @@ import           Foreign.Storable.Offset
 #include "vorbis/vorbisfile.h"
 #include "extra/vorbisfile.h"
 
-data {-# CTYPE "vorbis/vorbisfile.h" "OggVorbis_File" #-} OggVorbisFile =
-       OggVorbisFile
+data {-# CTYPE "vorbis/vorbisfile.h" "OggVorbis_File" #-} OggVorbis_File =
+       OggVorbis_File
          { datasource       :: Ptr ()
          , seekable         :: #type int
-         , offset           :: Ogg_Int64_t
-         , end              :: Ogg_Int64_t
-         , oy               :: OggSyncState
+         , offset           :: Ogg_int64_t
+         , end              :: Ogg_int64_t
+         , oy               :: Ogg_sync_state
          , links            :: #type int
-         , offsets          :: Ptr Ogg_Int64_t
-         , dataoffsets      :: Ptr Ogg_Int64_t
+         , offsets          :: Ptr Ogg_int64_t
+         , dataoffsets      :: Ptr Ogg_int64_t
          , serialnos        :: Ptr #type long
-         , pcmlengths       :: Ptr Ogg_Int64_t
-         , vi               :: Ptr VorbisInfo
-         , vc               :: Ptr VorbisComment
-         , pcm_offset       :: Ogg_Int64_t
+         , pcmlengths       :: Ptr Ogg_int64_t
+         , vi               :: Ptr Vorbis_info
+         , vc               :: Ptr Vorbis_comment
+         , pcm_offset       :: Ogg_int64_t
          , ready_state      :: #type int
          , current_serialno :: #type long
          , current_link     :: #type long
-         , bittrack         :: Ogg_Int64_t
-         , samptrack        :: Ogg_Int64_t
-         , os               :: OggStreamState
-         , vd               :: VorbisDspState
-         , vb               :: VorbisBlock
-         , callbacks        :: OvCallbacks
+         , bittrack         :: Ogg_int64_t
+         , samptrack        :: Ogg_int64_t
+         , os               :: Ogg_stream_state
+         , vd               :: Vorbis_dsp_state
+         , vb               :: Vorbis_block
+         , callbacks        :: Ov_callbackss
          }
 
-instance Offset "datasource"       OggVorbisFile where rawOffset = #{offset OggVorbis_File, datasource      }
-instance Offset "seekable"         OggVorbisFile where rawOffset = #{offset OggVorbis_File, seekable        }
-instance Offset "offset"           OggVorbisFile where rawOffset = #{offset OggVorbis_File, offset          }
-instance Offset "end"              OggVorbisFile where rawOffset = #{offset OggVorbis_File, end             }
-instance Offset "oy"               OggVorbisFile where rawOffset = #{offset OggVorbis_File, oy              }
-instance Offset "links"            OggVorbisFile where rawOffset = #{offset OggVorbis_File, links           }
-instance Offset "offsets"          OggVorbisFile where rawOffset = #{offset OggVorbis_File, offsets         }
-instance Offset "dataoffsets"      OggVorbisFile where rawOffset = #{offset OggVorbis_File, dataoffsets     }
-instance Offset "serialnos"        OggVorbisFile where rawOffset = #{offset OggVorbis_File, serialnos       }
-instance Offset "pcmlengths"       OggVorbisFile where rawOffset = #{offset OggVorbis_File, pcmlengths      }
-instance Offset "vi"               OggVorbisFile where rawOffset = #{offset OggVorbis_File, vi              }
-instance Offset "vc"               OggVorbisFile where rawOffset = #{offset OggVorbis_File, vc              }
-instance Offset "pcm_offset"       OggVorbisFile where rawOffset = #{offset OggVorbis_File, pcm_offset      }
-instance Offset "ready_state"      OggVorbisFile where rawOffset = #{offset OggVorbis_File, ready_state     }
-instance Offset "current_serialno" OggVorbisFile where rawOffset = #{offset OggVorbis_File, current_serialno}
-instance Offset "current_link"     OggVorbisFile where rawOffset = #{offset OggVorbis_File, current_link    }
-instance Offset "bittrack"         OggVorbisFile where rawOffset = #{offset OggVorbis_File, bittrack        }
-instance Offset "samptrack"        OggVorbisFile where rawOffset = #{offset OggVorbis_File, samptrack       }
-instance Offset "os"               OggVorbisFile where rawOffset = #{offset OggVorbis_File, os              }
-instance Offset "vd"               OggVorbisFile where rawOffset = #{offset OggVorbis_File, vd              }
-instance Offset "vb"               OggVorbisFile where rawOffset = #{offset OggVorbis_File, vb              }
-instance Offset "callbacks"        OggVorbisFile where rawOffset = #{offset OggVorbis_File, callbacks       }
+instance Offset "datasource"       OggVorbis_File where rawOffset = #{offset OggVorbis_File, datasource      }
+instance Offset "seekable"         OggVorbis_File where rawOffset = #{offset OggVorbis_File, seekable        }
+instance Offset "offset"           OggVorbis_File where rawOffset = #{offset OggVorbis_File, offset          }
+instance Offset "end"              OggVorbis_File where rawOffset = #{offset OggVorbis_File, end             }
+instance Offset "oy"               OggVorbis_File where rawOffset = #{offset OggVorbis_File, oy              }
+instance Offset "links"            OggVorbis_File where rawOffset = #{offset OggVorbis_File, links           }
+instance Offset "offsets"          OggVorbis_File where rawOffset = #{offset OggVorbis_File, offsets         }
+instance Offset "dataoffsets"      OggVorbis_File where rawOffset = #{offset OggVorbis_File, dataoffsets     }
+instance Offset "serialnos"        OggVorbis_File where rawOffset = #{offset OggVorbis_File, serialnos       }
+instance Offset "pcmlengths"       OggVorbis_File where rawOffset = #{offset OggVorbis_File, pcmlengths      }
+instance Offset "vi"               OggVorbis_File where rawOffset = #{offset OggVorbis_File, vi              }
+instance Offset "vc"               OggVorbis_File where rawOffset = #{offset OggVorbis_File, vc              }
+instance Offset "pcm_offset"       OggVorbis_File where rawOffset = #{offset OggVorbis_File, pcm_offset      }
+instance Offset "ready_state"      OggVorbis_File where rawOffset = #{offset OggVorbis_File, ready_state     }
+instance Offset "current_serialno" OggVorbis_File where rawOffset = #{offset OggVorbis_File, current_serialno}
+instance Offset "current_link"     OggVorbis_File where rawOffset = #{offset OggVorbis_File, current_link    }
+instance Offset "bittrack"         OggVorbis_File where rawOffset = #{offset OggVorbis_File, bittrack        }
+instance Offset "samptrack"        OggVorbis_File where rawOffset = #{offset OggVorbis_File, samptrack       }
+instance Offset "os"               OggVorbis_File where rawOffset = #{offset OggVorbis_File, os              }
+instance Offset "vd"               OggVorbis_File where rawOffset = #{offset OggVorbis_File, vd              }
+instance Offset "vb"               OggVorbis_File where rawOffset = #{offset OggVorbis_File, vb              }
+instance Offset "callbacks"        OggVorbis_File where rawOffset = #{offset OggVorbis_File, callbacks       }
 
-instance Storable OggVorbisFile where
+instance Storable OggVorbis_File where
   sizeOf _    = #size      OggVorbis_File
   alignment _ = #alignment OggVorbis_File
 
   peek ptr_ =
-    OggVorbisFile
+    OggVorbis_File
       <$> peek (Foreign.Storable.Offset.offset @"datasource"       ptr_)
       <*> peek (Foreign.Storable.Offset.offset @"seekable"         ptr_)
       <*> peek (Foreign.Storable.Offset.offset @"offset"           ptr_)
@@ -130,42 +130,46 @@ instance Storable OggVorbisFile where
 
 
 
-type ReadFunc = Ptr ()            -- ^ @ptr@
-             -> #{type size_t}    -- ^ @size@
-             -> #{type size_t}    -- ^ @count@
-             -> Ptr ()            -- ^ @stream@
-             -> IO #{type size_t}
+type Read_func =
+          Ptr ()            -- ^ @ptr@
+       -> #{type size_t}    -- ^ @size@
+       -> #{type size_t}    -- ^ @count@
+       -> Ptr ()            -- ^ @stream@
+       -> IO #{type size_t}
 
-type SeekFunc  = Ptr ()         -- ^ @datasource@
-              -> Ogg_Int64_t    -- ^ @offset@
-              -> #{type int}    -- ^ @origin@
-              -> IO #{type int}
+type Seek_func =
+          Ptr ()         -- ^ @datasource@
+       -> Ogg_int64_t    -- ^ @offset@
+       -> #{type int}    -- ^ @origin@
+       -> IO #{type int}
 
-type CloseFunc = Ptr ()
-              -> IO #{type int}
+type Close_func =
+          Ptr ()
+       -> IO #{type int}
 
-type TellFunc = Ptr ()
-             -> IO #{type long}
+type Tell_func =
+          Ptr ()
+       -> IO #{type long}
 
-data {-# CTYPE "vorbis/vorbisfile.h" "ov_callbacks" #-} OvCallbacks =
-       OvCallbacks
-         { read_func  :: FunPtr ReadFunc
-         , seek_func  :: FunPtr SeekFunc
-         , close_func :: FunPtr CloseFunc
-         , tell_func  :: FunPtr TellFunc
+data {-# CTYPE "vorbis/vorbisfile.h" "ov_callbacks" #-} Ov_callbackss =
+       Ov_callbackss
+         { read_func  :: FunPtr Read_func
+         , seek_func  :: FunPtr Seek_func
+         , close_func :: FunPtr Close_func
+         , tell_func  :: FunPtr Tell_func
          }
 
-instance Offset "read_func"  OvCallbacks where rawOffset = #{offset ov_callbacks, read_func  }
-instance Offset "seek_func"  OvCallbacks where rawOffset = #{offset ov_callbacks, seek_func  }
-instance Offset "close_func" OvCallbacks where rawOffset = #{offset ov_callbacks, close_func }
-instance Offset "tell_func"  OvCallbacks where rawOffset = #{offset ov_callbacks, tell_func  }
+instance Offset "read_func"  Ov_callbackss where rawOffset = #{offset ov_callbacks, read_func  }
+instance Offset "seek_func"  Ov_callbackss where rawOffset = #{offset ov_callbacks, seek_func  }
+instance Offset "close_func" Ov_callbackss where rawOffset = #{offset ov_callbacks, close_func }
+instance Offset "tell_func"  Ov_callbackss where rawOffset = #{offset ov_callbacks, tell_func  }
 
-instance Storable OvCallbacks where
+instance Storable Ov_callbackss where
   sizeOf _    = #size      ov_callbacks
   alignment _ = #alignment ov_callbacks
 
   peek ptr_ =
-    OvCallbacks
+    Ov_callbackss
       <$> peek (Foreign.Storable.Offset.offset @"read_func"  ptr_)
       <*> peek (Foreign.Storable.Offset.offset @"seek_func"  ptr_)
       <*> peek (Foreign.Storable.Offset.offset @"close_func" ptr_)
@@ -180,13 +184,13 @@ instance Storable OvCallbacks where
 
 
 foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_default_ptr"
-  poke_OV_CALLBACKS_DEFAULT :: Ptr OvCallbacks -> IO ()
+  poke_OV_CALLBACKS_DEFAULT :: Ptr Ov_callbackss -> IO ()
 
 foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_noclose_ptr"
-  poke_OV_CALLBACKS_NOCLOSE :: Ptr OvCallbacks -> IO ()
+  poke_OV_CALLBACKS_NOCLOSE :: Ptr Ov_callbackss -> IO ()
 
 foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_streamonly_ptr"
-  poke_OV_CALLBACKS_STREAMONLY :: Ptr OvCallbacks -> IO ()
+  poke_OV_CALLBACKS_STREAMONLY :: Ptr Ov_callbackss -> IO ()
 
 foreign import CALLCV unsafe "extra/vorbisfile.h ov_callbacks_streamonly_noclose_ptr"
-  poke_OV_CALLBACKS_STREAMONLY_NOCLOSE :: Ptr OvCallbacks -> IO ()
+  poke_OV_CALLBACKS_STREAMONLY_NOCLOSE :: Ptr Ov_callbackss -> IO ()

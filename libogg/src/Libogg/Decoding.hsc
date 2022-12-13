@@ -14,42 +14,42 @@ import           Foreign.Ptr
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_init"
   ogg_sync_init
-    :: Ptr OggSyncState -- ^ oy
+    :: Ptr Ogg_sync_state -- ^ oy
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_check"
   ogg_sync_check
-    :: Ptr OggSyncState -- ^ oy
+    :: Ptr Ogg_sync_state -- ^ oy
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_clear"
   ogg_sync_clear
-    :: Ptr OggSyncState -- ^ oy
+    :: Ptr Ogg_sync_state -- ^ oy
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_destroy"
   ogg_sync_destroy
-    :: Ptr OggSyncState -- ^ oy
+    :: Ptr Ogg_sync_state -- ^ oy
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_reset"
   ogg_sync_reset
-    :: Ptr OggSyncState -- ^ oy
+    :: Ptr Ogg_sync_state -- ^ oy
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_buffer"
   ogg_sync_buffer
-    :: Ptr OggSyncState      -- ^ oy
+    :: Ptr Ogg_sync_state      -- ^ oy
     -> #{type long}          -- ^ size
     -> IO (Ptr #{type char})
 
@@ -57,7 +57,7 @@ foreign import CALLCV "ogg/ogg.h ogg_sync_buffer"
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_wrote"
   ogg_sync_wrote
-    :: Ptr OggSyncState -- ^ oy
+    :: Ptr Ogg_sync_state -- ^ oy
     -> #{type long}
     -> IO #type int
 
@@ -65,38 +65,38 @@ foreign import CALLCV "ogg/ogg.h ogg_sync_wrote"
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_pageseek"
   ogg_sync_pageseek
-    :: Ptr OggSyncState -- ^ oy
-    -> Ptr OggPage      -- ^ bytes
+    :: Ptr Ogg_sync_state -- ^ oy
+    -> Ptr Ogg_page      -- ^ bytes
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_sync_pageout"
   ogg_sync_pageout
-    :: Ptr OggSyncState -- ^ oy
-    -> Ptr OggPage      -- ^ og
+    :: Ptr Ogg_sync_state -- ^ oy
+    -> Ptr Ogg_page      -- ^ og
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_pagein"
   ogg_stream_pagein
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPage        -- ^ og
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_page        -- ^ og
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_packetout"
   ogg_stream_packetout
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ op
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_packet      -- ^ op
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_packetpeek"
   ogg_stream_packetpeek
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ op
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_packet      -- ^ op
     -> IO #type int

@@ -15,8 +15,8 @@ import           Foreign.Storable.Offset
 
 #include "vorbis/vorbisenc.h"
 
-data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage_arg" #-} OvectlRatemanageArg =
-       OvectlRatemanageArg
+data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage_arg" #-} Ovectl_ratemanage_arg =
+       Ovectl_ratemanage_arg
          { management_active        :: #type int
          , bitrate_hard_min         :: #type long
          , bitrate_hard_max         :: #type long
@@ -27,21 +27,21 @@ data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage_arg" #-} OvectlRatemanage
          , bitrate_av_window_center :: #type double
          }
 
-instance Offset "management_active"        OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, management_active       }
-instance Offset "bitrate_hard_min"         OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_hard_min        }
-instance Offset "bitrate_hard_max"         OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_hard_max        }
-instance Offset "bitrate_hard_window"      OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_hard_window     }
-instance Offset "bitrate_av_lo"            OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_lo           }
-instance Offset "bitrate_av_hi"            OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_hi           }
-instance Offset "bitrate_av_window"        OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_window       }
-instance Offset "bitrate_av_window_center" OvectlRatemanageArg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_window_center}
+instance Offset "management_active"        Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, management_active       }
+instance Offset "bitrate_hard_min"         Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_hard_min        }
+instance Offset "bitrate_hard_max"         Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_hard_max        }
+instance Offset "bitrate_hard_window"      Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_hard_window     }
+instance Offset "bitrate_av_lo"            Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_lo           }
+instance Offset "bitrate_av_hi"            Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_hi           }
+instance Offset "bitrate_av_window"        Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_window       }
+instance Offset "bitrate_av_window_center" Ovectl_ratemanage_arg where rawOffset = #{offset struct ovectl_ratemanage_arg, bitrate_av_window_center}
 
-instance Storable OvectlRatemanageArg where
+instance Storable Ovectl_ratemanage_arg where
   sizeOf _    = #size      struct ovectl_ratemanage_arg
   alignment _ = #alignment struct ovectl_ratemanage_arg
 
   peek ptr =
-    OvectlRatemanageArg
+    Ovectl_ratemanage_arg
       <$> peek (offset @"management_active"        ptr)
       <*> peek (offset @"bitrate_hard_min"         ptr)
       <*> peek (offset @"bitrate_hard_max"         ptr)
@@ -63,8 +63,8 @@ instance Storable OvectlRatemanageArg where
 
 
 
-data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage2_arg" #-} OvectlRatemanage2Arg =
-       OvectlRatemanage2Arg
+data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage2_arg" #-} Ovectl_ratemanage2_arg =
+       Ovectl_ratemanage2_arg
          { management_active            :: #type int
          , bitrate_limit_min_kbps       :: #type long
          , bitrate_limit_max_kbps       :: #type long
@@ -74,20 +74,20 @@ data {-# CTYPE "vorbis/vorbisenc.h" "ovectl_ratemanage2_arg" #-} OvectlRatemanag
          , bitrate_average_damping      :: #type double
          }
 
-instance Offset "management_active"            OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, management_active           }
-instance Offset "bitrate_limit_min_kbps"       OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_min_kbps      }
-instance Offset "bitrate_limit_max_kbps"       OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_max_kbps      }
-instance Offset "bitrate_limit_reservoir_bits" OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_reservoir_bits}
-instance Offset "bitrate_limit_reservoir_bias" OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_reservoir_bias}
-instance Offset "bitrate_average_kbps"         OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_average_kbps        }
-instance Offset "bitrate_average_damping"      OvectlRatemanage2Arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_average_damping     }
+instance Offset "management_active"            Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, management_active           }
+instance Offset "bitrate_limit_min_kbps"       Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_min_kbps      }
+instance Offset "bitrate_limit_max_kbps"       Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_max_kbps      }
+instance Offset "bitrate_limit_reservoir_bits" Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_reservoir_bits}
+instance Offset "bitrate_limit_reservoir_bias" Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_limit_reservoir_bias}
+instance Offset "bitrate_average_kbps"         Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_average_kbps        }
+instance Offset "bitrate_average_damping"      Ovectl_ratemanage2_arg where rawOffset = #{offset struct ovectl_ratemanage2_arg, bitrate_average_damping     }
 
-instance Storable OvectlRatemanage2Arg where
+instance Storable Ovectl_ratemanage2_arg where
   sizeOf _    = #size      struct ovectl_ratemanage2_arg
   alignment _ = #alignment struct ovectl_ratemanage2_arg
 
   peek ptr =
-    OvectlRatemanage2Arg
+    Ovectl_ratemanage2_arg
       <$> peek (offset @"management_active"            ptr)
       <*> peek (offset @"bitrate_limit_min_kbps"       ptr)
       <*> peek (offset @"bitrate_limit_max_kbps"       ptr)

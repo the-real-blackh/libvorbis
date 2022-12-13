@@ -15,7 +15,7 @@ import           Foreign.Ptr
 
 foreign import CALLCV "vorbis/codec.h vorbis_comment_add"
   vorbis_comment_add
-    :: Ptr VorbisComment -- ^ vc
+    :: Ptr Vorbis_comment -- ^ vc
     -> Ptr #{type char}  -- ^ comment
     -> IO ()
 
@@ -23,7 +23,7 @@ foreign import CALLCV "vorbis/codec.h vorbis_comment_add"
 
 foreign import CALLCV "vorbis/codec.h vorbis_comment_add_tag"
   vorbis_comment_add_tag
-    :: Ptr VorbisComment -- ^ vc
+    :: Ptr Vorbis_comment -- ^ vc
     -> Ptr #{type char}  -- ^ tag
     -> Ptr #{type char}  -- ^ contents
     -> IO ()
@@ -32,21 +32,21 @@ foreign import CALLCV "vorbis/codec.h vorbis_comment_add_tag"
 
 foreign import CALLCV "vorbis/codec.h vorbis_comment_clear"
   vorbis_comment_clear
-    :: Ptr VorbisComment -- ^ vc
+    :: Ptr Vorbis_comment -- ^ vc
     -> IO ()
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_comment_init"
   vorbis_comment_init
-    :: Ptr VorbisComment -- ^ vc
+    :: Ptr Vorbis_comment -- ^ vc
     -> IO ()
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_comment_query"
   vorbis_comment_query
-    :: Ptr VorbisComment     -- ^ vc
+    :: Ptr Vorbis_comment     -- ^ vc
     -> Ptr #{type char}      -- ^ tag
     -> #{type int}           -- ^ count
     -> IO (Ptr #{type char})
@@ -55,7 +55,7 @@ foreign import CALLCV "vorbis/codec.h vorbis_comment_query"
 
 foreign import CALLCV "vorbis/codec.h vorbis_comment_query_count"
   vorbis_comment_query_count
-    :: Ptr VorbisComment -- ^ vc
+    :: Ptr Vorbis_comment -- ^ vc
     -> Ptr #{type char}  -- ^ tag
     -> IO #type int
 
@@ -64,6 +64,6 @@ foreign import CALLCV "vorbis/codec.h vorbis_comment_query_count"
 
 foreign import CALLCV "vorbis/codec.h vorbis_commentheader_out"
   vorbis_commentheader_out
-    :: Ptr VorbisComment -- ^ vc
-    -> Ptr OggPacket     -- ^ op
+    :: Ptr Vorbis_comment -- ^ vc
+    -> Ptr Ogg_packet     -- ^ op
     -> IO #type int

@@ -5,9 +5,9 @@
 
 module Vorbisenc
   ( -- ** Data Strutcures
-    VorbisInfo (..)
-  , OvectlRatemanageArg (..)
-  , OvectlRatemanage2Arg (..)
+    Vorbis_info (..)
+  , Ovectl_ratemanage_arg (..)
+  , Ovectl_ratemanage2_arg (..)
     -- ** Encoder Setup
   , vorbis_encode_ctl
   , pattern OV_ECTL_RATEMANAGE2_GET
@@ -83,7 +83,7 @@ pattern OV_ECTL_RATEMANAGE_HARD = #const OV_ECTL_RATEMANAGE_HARD
 
 foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_ctl"
   vorbis_encode_ctl
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> #{type int}    -- ^ request
     -> Ptr ()         -- ^ arg
     -> IO #type int
@@ -92,7 +92,7 @@ foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_ctl"
 
 foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_init"
   vorbis_encode_init
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> #{type long}   -- ^ channels
     -> #{type long}   -- ^ rate
     -> #{type long}   -- ^ max_bitrate
@@ -104,7 +104,7 @@ foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_init"
 
 foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_init_vbr"
   vorbis_encode_init_vbr
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> #{type long}   -- ^ channels
     -> #{type long}   -- ^ rate
     -> #{type float}  -- ^ base_quality
@@ -114,14 +114,14 @@ foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_init_vbr"
 
 foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_init"
   vorbis_encode_setup_init
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> IO #{type int}
 
 
 
 foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_managed"
   vorbis_encode_setup_managed
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> #{type long}   -- ^ channels
     -> #{type long}   -- ^ rate
     -> #{type long}   -- ^ max_bitrate
@@ -133,7 +133,7 @@ foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_managed"
 
 foreign import CALLCV "vorbis/vorbisenc.h vorbis_encode_setup_vbr"
   vorbis_encode_setup_vbr
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> #{type long}   -- ^ channels
     -> #{type long}   -- ^ rate
     -> #{type float}  -- ^ base_quality

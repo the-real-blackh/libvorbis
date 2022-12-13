@@ -16,7 +16,7 @@ import           Foreign.Ptr
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_bitrate"
   ov_bitrate
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> #{type int}       -- ^ i
     -> IO #type long
 
@@ -24,28 +24,28 @@ foreign import CALLCV "vorbis/vorbisfile.h ov_bitrate"
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_bitrate_instant"
   ov_bitrate_instant
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> IO #type long
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_streams"
   ov_streams
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> IO #type long
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_seekable"
   ov_seekable
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> IO #type long
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_serialnumber"
   ov_serialnumber
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> #{type int}       -- ^ i
     -> IO #type long
 
@@ -53,23 +53,23 @@ foreign import CALLCV "vorbis/vorbisfile.h ov_serialnumber"
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_raw_total"
   ov_raw_total
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> #{type int}       -- ^ i
-    -> IO Ogg_Int64_t
+    -> IO Ogg_int64_t
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_pcm_total"
   ov_pcm_total
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> #{type int}       -- ^ i
-    -> IO Ogg_Int64_t
+    -> IO Ogg_int64_t
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_time_total"
   ov_time_total
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> #{type int}       -- ^ i
     -> IO #type double
 
@@ -77,35 +77,35 @@ foreign import CALLCV "vorbis/vorbisfile.h ov_time_total"
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_raw_tell"
   ov_raw_tell
-    :: Ptr OggVorbisFile -- ^ vf
-    -> IO Ogg_Int64_t
+    :: Ptr OggVorbis_File -- ^ vf
+    -> IO Ogg_int64_t
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_pcm_tell"
   ov_pcm_tell
-    :: Ptr OggVorbisFile -- ^ vf
-    -> IO Ogg_Int64_t
+    :: Ptr OggVorbis_File -- ^ vf
+    -> IO Ogg_int64_t
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_time_tell"
   ov_time_tell
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> IO #type double
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_info"
   ov_info
-    :: Ptr OggVorbisFile -- ^ vf
+    :: Ptr OggVorbis_File -- ^ vf
     -> #{type int}       -- ^ link
-    -> IO (Ptr VorbisInfo)
+    -> IO (Ptr Vorbis_info)
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_comment"
   ov_comment
-    :: Ptr OggVorbisFile      -- ^ vf
+    :: Ptr OggVorbis_File      -- ^ vf
     -> #{type int}            -- ^ link
-    -> IO (Ptr VorbisComment)
+    -> IO (Ptr Vorbis_comment)

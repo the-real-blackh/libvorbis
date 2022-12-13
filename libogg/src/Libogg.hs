@@ -2,12 +2,12 @@
 
 module Libogg
   ( -- ** Data Structures
-    Ogg_Int64_t
-  , OggpackBuffer (..)
-  , OggPage (..)
-  , OggStreamState (..)
-  , OggPacket (..)
-  , OggSyncState (..)
+    Ogg_int64_t
+  , Oggpack_buffer (..)
+  , Ogg_page (..)
+  , Ogg_stream_state (..)
+  , Ogg_packet (..)
+  , Ogg_sync_state (..)
     -- ** Bitpacking
   , oggpack_writeinit
   , oggpack_writecheck

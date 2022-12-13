@@ -14,20 +14,20 @@ import           Foreign.Ptr
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_read"
   ov_read
-    :: Ptr OggVorbisFile -- ^ vf
-    -> Ptr #{type char}  -- ^ buffer
-    -> #{type int}       -- ^ length
-    -> #{type int}       -- ^ bigendianp
-    -> #{type int}       -- ^ word
-    -> #{type int}       -- ^ sgned
-    -> Ptr #{type int}   -- ^ bitstream
+    :: Ptr OggVorbis_File -- ^ vf
+    -> Ptr #{type char}   -- ^ buffer
+    -> #{type int}        -- ^ length
+    -> #{type int}        -- ^ bigendianp
+    -> #{type int}        -- ^ word
+    -> #{type int}        -- ^ sgned
+    -> Ptr #{type int}    -- ^ bitstream
     -> IO #type long
 
 
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_read_float"
   ov_read_float
-    :: Ptr OggVorbisFile             -- ^ vf
+    :: Ptr OggVorbis_File             -- ^ vf
     -> Ptr (Ptr (Ptr #{type float})) -- ^ pcm_channels
     -> #{type int}                   -- ^ samples
     -> Ptr #{type int}               -- ^ bitstream
@@ -36,23 +36,24 @@ foreign import CALLCV "vorbis/vorbisfile.h ov_read_float"
 
 
 
-type FilterFunc = Ptr (Ptr #{type float}) -- ^ pcm
-               -> #{type long}            -- ^ channels
-               -> #{type long}            -- ^ samples
-               -> Ptr ()                  -- ^ filter_param
-               -> IO (Ptr ())
+type Filter_func =
+          Ptr (Ptr #{type float}) -- ^ pcm
+       -> #{type long}            -- ^ channels
+       -> #{type long}            -- ^ samples
+       -> Ptr ()                  -- ^ filter_param
+       -> IO (Ptr ())
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_read_filter"
   ov_read_filter
-    :: Ptr OggVorbisFile -- ^ vf
-    -> Ptr #{type char}  -- ^ buffer
-    -> #{type int}       -- ^ length
-    -> #{type int}       -- ^ bigendianp
-    -> #{type int}       -- ^ word
-    -> #{type int}       -- ^ sgned
-    -> Ptr #{type int}   -- ^ bitstream
-    -> FunPtr FilterFunc
-    -> Ptr ()            -- ^ filter_param
+    :: Ptr OggVorbis_File -- ^ vf
+    -> Ptr #{type char}   -- ^ buffer
+    -> #{type int}        -- ^ length
+    -> #{type int}        -- ^ bigendianp
+    -> #{type int}        -- ^ word
+    -> #{type int}        -- ^ sgned
+    -> Ptr #{type int}    -- ^ bitstream
+    -> FunPtr Filter_func
+    -> Ptr ()             -- ^ filter_param
     -> IO #type long
 
 
@@ -60,6 +61,6 @@ foreign import CALLCV "vorbis/vorbisfile.h ov_read_filter"
 
 foreign import CALLCV "vorbis/vorbisfile.h ov_crosslap"
  ov_crosslap
-   :: Ptr OggVorbisFile -- ^ old
-   -> Ptr OggVorbisFile -- ^ new
+   :: Ptr OggVorbis_File -- ^ old
+   -> Ptr OggVorbis_File -- ^ new
    -> IO #type long

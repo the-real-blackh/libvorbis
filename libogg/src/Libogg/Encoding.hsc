@@ -13,24 +13,24 @@ import           Foreign.Ptr
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_packetin"
   ogg_stream_packetin
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPacket      -- ^ cp
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_packet      -- ^ cp
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_pageout"
   ogg_stream_pageout
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPage        -- ^ og
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_page        -- ^ og
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_pageout_fill"
   ogg_stream_pageout_fill
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPage        -- ^ og
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_page        -- ^ og
     -> #{type int}        -- ^ fillbytes
     -> IO #type int
 
@@ -38,15 +38,15 @@ foreign import CALLCV "ogg/ogg.h ogg_stream_pageout_fill"
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_flush"
   ogg_stream_flush
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPage        -- ^ og
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_page        -- ^ og
     -> IO #type int
 
 
 
 foreign import CALLCV "ogg/ogg.h ogg_stream_flush_fill"
   ogg_stream_flush_fill
-    :: Ptr OggStreamState -- ^ os
-    -> Ptr OggPage        -- ^ og
+    :: Ptr Ogg_stream_state -- ^ os
+    -> Ptr Ogg_page        -- ^ og
     -> #{type int}        -- ^ fillbytes
     -> IO #type int

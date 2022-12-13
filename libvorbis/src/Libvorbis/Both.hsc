@@ -15,37 +15,37 @@ import           Foreign.Ptr
 
 foreign import CALLCV "vorbis/codec.h vorbis_block_clear"
   vorbis_block_clear
-    :: Ptr VorbisBlock -- ^ vb
+    :: Ptr Vorbis_block -- ^ vb
     -> IO #type int
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_block_init"
   vorbis_block_init
-    :: Ptr VorbisDspState -- ^ v
-    -> Ptr VorbisBlock    -- ^ vb
+    :: Ptr Vorbis_dsp_state -- ^ v
+    -> Ptr Vorbis_block    -- ^ vb
     -> IO #type int
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_dsp_clear"
   vorbis_dsp_clear
-    :: Ptr VorbisDspState -- ^ v
+    :: Ptr Vorbis_dsp_state -- ^ v
     -> IO ()
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_granule_time"
   vorbis_granule_time
-    :: Ptr VorbisDspState -- ^ v
-    -> Ogg_Int64_t        -- ^ granulepos
+    :: Ptr Vorbis_dsp_state -- ^ v
+    -> Ogg_int64_t        -- ^ granulepos
     -> IO #type double
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_info_blocksize"
   vorbis_info_blocksize
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> #{type int}    -- ^ zo
     -> IO #type int
 
@@ -53,14 +53,14 @@ foreign import CALLCV "vorbis/codec.h vorbis_info_blocksize"
 
 foreign import CALLCV "vorbis/codec.h vorbis_info_clear"
   vorbis_info_clear
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> IO ()
 
 
 
 foreign import CALLCV "vorbis/codec.h vorbis_info_init"
   vorbis_info_init
-    :: Ptr VorbisInfo -- ^ vi
+    :: Ptr Vorbis_info -- ^ vi
     -> IO ()
 
 

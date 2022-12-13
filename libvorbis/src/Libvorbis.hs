@@ -2,11 +2,11 @@
 
 module Libvorbis
   ( -- ** Data Structures
-    Ogg_Int64_t
-  , VorbisBlock (..)
-  , VorbisComment (..)
-  , VorbisDspState (..)
-  , VorbisInfo (..)
+    Ogg_int64_t
+  , Vorbis_block (..)
+  , Vorbis_comment (..)
+  , Vorbis_dsp_state (..)
+  , Vorbis_info (..)
     -- ** Functions used by both decode and encode
   , vorbis_block_clear
   , vorbis_block_init
