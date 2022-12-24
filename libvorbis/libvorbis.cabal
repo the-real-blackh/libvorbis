@@ -1,0 +1,115 @@
+cabal-version:       2.2
+
+name:                libvorbis
+version:             0.2.0.0
+synopsis:            Raw Haskell bindings to libvorbis, vorbisfile and vorbisenc.
+description:         Raw Haskell bindings to
+                     [libvorbis](https://xiph.org/vorbis/doc/libvorbis/index.html),
+                     [vorbisfile](https://xiph.org/vorbis/doc/vorbisfile/index.html) and
+                     [vorbisenc](https://xiph.org/vorbis/doc/vorbisenc/index.html).
+homepage:            https://github.com/the-real-blackh/libvorbis
+license:             BSD-3-Clause
+license-file:        LICENSE
+author:              Stephen Blackheath, Oleksii Divak
+maintainer:          Oleksii Divak <frozenwitness@gmail.com>
+category:            Codec
+build-type:          Simple
+extra-source-files:  libvorbis/include/vorbis/*.h
+                     libvorbis/lib/*.h
+                     libvorbis/lib/books/coupled/*.h
+                     libvorbis/lib/books/floor/*.h
+                     libvorbis/lib/books/uncoupled/*.h
+                     libvorbis/lib/modes/*.h
+
+                     cbits/include/extra/*.h
+
+source-repository head
+  type:     git
+  location: https://github.com/the-real-blackh/libvorbis
+
+flag ccall
+  description: Use the ccall call convention.
+  default: False
+
+flag stdcall
+  description: Use the stdcall call convention (takes precedence over the ccall flag).
+  default: False
+
+library
+  exposed-modules:     Libvorbis
+                       Vorbisenc
+                       Vorbisfile
+
+  reexported-modules:  storable-offset:Foreign.Storable.Offset
+
+  other-modules:       Libvorbis.Both
+                       Libvorbis.Decoding
+                       Libvorbis.Encoding
+                       Libvorbis.Metadata
+                       Libvorbis.Return
+                       Libvorbis.Types
+
+                       Vorbisenc.Types
+
+                       Vorbisfile.Decoding
+                       Vorbisfile.File
+                       Vorbisfile.Seeking
+                       Vorbisfile.Setup
+                       Vorbisfile.Types
+
+  build-depends:       base            >= 4.10 && < 5
+                     , libogg          >= 0.1  && < 0.2
+                     , storable-offset >= 0.1  && < 0.2
+
+  hs-source-dirs:      src
+
+  ghc-options:         -Wall
+
+  install-includes:    vorbis/codec.h
+                       vorbis/vorbisenc.h
+                       vorbis/vorbisfile.h
+
+  include-dirs:        libvorbis/include
+                       libvorbis/lib
+                       libvorbis/lib/books/coupled
+                       libvorbis/lib/books/floor
+                       libvorbis/lib/books/uncoupled
+                       libvorbis/lib/modes
+                       cbits/include
+
+  c-sources:           libvorbis/lib/analysis.c
+                    -- libvorbis/lib/barkmel.c
+                       libvorbis/lib/bitrate.c
+                       libvorbis/lib/block.c
+                       libvorbis/lib/codebook.c
+                       libvorbis/lib/envelope.c
+                       libvorbis/lib/floor0.c
+                       libvorbis/lib/floor1.c
+                       libvorbis/lib/info.c
+                       libvorbis/lib/lookup.c
+                       libvorbis/lib/lpc.c
+                       libvorbis/lib/lsp.c
+                       libvorbis/lib/mapping0.c
+                       libvorbis/lib/mdct.c
+                       libvorbis/lib/psy.c
+                    -- libvorbis/lib/psytune.c
+                       libvorbis/lib/registry.c
+                       libvorbis/lib/res0.c
+                       libvorbis/lib/sharedbook.c
+                       libvorbis/lib/smallft.c
+                       libvorbis/lib/synthesis.c
+                    -- libvorbis/lib/tone.c
+                       libvorbis/lib/vorbisenc.c
+                       libvorbis/lib/vorbisfile.c
+                       libvorbis/lib/window.c
+
+                       cbits/lib/vorbisfile.c
+
+  if flag(stdcall)
+    cpp-options: -DCALLCV=stdcall
+  elif flag(ccall)
+    cpp-options: -DCALLCV=ccall
+  else
+    cpp-options: -DCALLCV=capi
+
+  default-language:    Haskell98
